@@ -112,7 +112,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 button:hover, button:focus {
@@ -166,4 +166,30 @@ td {
   cursor: pointer;
   text-decoration: underline;
   text-decoration-thickness: 3px;
+}
+
+@media only screen and (max-width: 620px){
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-left: 0.3rem;
+  }
+  .selectors {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--accent-100);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  .selectors > div {
+    width: 90%;
+    padding: 0.8rem;
+  }
+  .selectors > .selectors__option:not(:last-child) {
+    border-right: none;
+    border-bottom: 2px solid var(--background);
+  }
 }
