@@ -13,11 +13,11 @@
 </head>
 <body>
   <header>
-    <div class="header__right">
+    <div class="header__left">
       <h1>plttr</h1>
       <i class="fa-sharp fa-regular fa-circle"></i>
     </div>
-    <div class="header__left">
+    <div class="header__right">
       <button>add row</button>
       <button>add column</button>
     </div>
@@ -68,11 +68,26 @@
       </tr>
     </table>
     <div class="selectors">
-      <div>x-axis</div>
-      <div>x-axis error</div>
-      <div>y-axis</div>
-      <div>y-axis error</div>
-      <div>fit selection</div>
+      <div class="selectors__option">
+        <div class="selectors__option-name">x-axis</div>
+        <p id="x-axis-selection"></p>
+      </div>
+      <div class="selectors__option">
+        <div class="selectors__option-name">x-axis error</div>
+        <p id="x-error-selection"></p>
+      </div>
+      <div class="selectors__option">
+        <div class="selectors__option-name">y-axis</div>
+        <p id="y-axis-selection"></p>
+      </div>
+      <div class="selectors__option">
+        <div class="selectors__option-name">y-axis error</div>
+        <p id="y-error-selection"></p>
+      </div>
+      <div class="selectors__option">
+        <div class="selectors__option-name">fit selection</div>
+        <p id="fit-selection"></p>
+      </div>
     </div>
   </main>
   <footer>
