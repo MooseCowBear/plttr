@@ -86,10 +86,17 @@ header {
   font-size: 2rem;
 }
 
-.header__right {
+.header__right, .header__left {
   display: flex;
   align-items: center;
+}
+
+.header__left {
   gap: 1rem;
+}
+
+.header__right {
+  gap: 0.5rem;
 }
 
 button {
@@ -110,6 +117,7 @@ main {
 
 button:hover, button:focus {
   border: 2px solid var(--accent-200);
+  cursor: pointer;
 }
 
 table {
@@ -144,9 +152,18 @@ td {
   padding: 1rem;
   text-align: center;
 }
+
 .selectors > div {
   width: 20%;
+  line-height: 1.2;
 }
-.selectors > div:not(:last-child) {
+
+.selectors > .selectors__option:not(:last-child) {
   border-right: 2px solid var(--background);
+}
+
+.selectors  .selectors__option-name:hover, .selectors .selectors__option-name:focus {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
 }
