@@ -115,7 +115,7 @@ main {
   gap: 2rem;
 }
 
-button:hover, button:focus {
+button:not(.button__dropdown):hover, button:not(.button__dropdown):focus {
   border: 2px solid var(--accent-200);
   cursor: pointer;
 }
@@ -192,4 +192,40 @@ td {
     border-right: none;
     border-bottom: 2px solid var(--background);
   }
+}
+/* dropdowns */
+.selectors__option{
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  display: none; /*becomes flex*/
+  flex-direction: column;
+  min-width: 100%;
+  background-color: var(--background);
+  border-radius: 0.5em;
+  overflow: hidden;
+  box-shadow: 0 0 4px 5px rgb(0, 0, 0, 0.05);
+}
+
+.dropdown-content.show { /*check that this is the right class name to add */
+  display: flex;
+}
+
+.button__dropdown{
+  background-color: whitesmoke;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9em;
+  padding: 1em;
+  border-radius: 0;
+  z-index: 1;
+}
+
+.button__dropdown:not(:last-child){
+  margin-bottom: 2px;
+}
+
+.button__dropdown:hover, .button__dropdown:focus {
+  background-color: var(--accent-100);
 }
