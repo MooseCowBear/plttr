@@ -229,3 +229,40 @@ td {
 .button__dropdown:hover, .button__dropdown:focus {
   background-color: var(--accent-100);
 }
+
+.selection__choices {
+  margin-top: -1em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1em;
+  width: 100%;
+}
+
+.selection__choices > div {
+  border: 2px solid var(--accent-200);
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+}
+
+.graph-wrapper {
+  width: 100%;
+  height: 40rem;
+  border: 2px solid var(--accent-200);
+  border-radius: 0.5em;
+  padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.graph-report {
+  
+}
+
+#graph {
+  border: 2px solid var(--accent-200);
+  border-radius: inherit;
+  width: 100%;
+  height: 80%;
+}
