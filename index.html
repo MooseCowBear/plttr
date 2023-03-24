@@ -141,6 +141,90 @@
       <div id="graph">
       </div>
     </div>
+
+    <div id="formModal" class="modal"> 
+      <div class="modal-content">
+        <div id="calculator"> <!--grid, 2 cols-->
+                    
+          <div class="title"> <!--first elem in the grid, position 0, 0-->
+            <h2>add a formula</h2>
+          </div> <!--end title-->
+        
+          <div id="close-div"> <!--second elem in the grid, position 0, 1-->
+            <span id="close">&times;</span>
+          </div>
+        
+          
+          <div id="calculator__header"> <!--third elem in grid, position, 1, 0-->
+            
+            <div id="invalid-formula">
+              <p>invalid formula</p>
+            </div> 
+      
+            <div class="calculator__screen"></div>
+      
+            <div id="name-col"> 
+              <label id="name-input-label" for="name">add a name:</label> 
+              <input type ="text" id="name" value="">
+            </div>
+    
+          </div> <!--end formula-calc-header div-->
+    
+          <div id="col-names"> <!--fourth elem in grid, position 1, 1-2-->
+            <button id="x-btn" class="col-btn hov">x</button>
+            <button id="y-btn" class="col-btn hov">y</button>
+            <button id="x-err-btn" class="col-btn hov">&plusmn; x</button>
+            <button id="y-err-btn" class="col-btn hov">&plusmn; y</button>
+          </div> <!--end col-names-->
+          
+          <div class="calculator__keys"> <!--fifth elem in grid, position 2, 0-->
+    
+            <button id="del" class = "calc-btn hov"> del </button>
+            <button id="left-paren" class = "calc-btn hov"> ( </button>
+            <button id="right-paren" class = "calc-btn hov"> ) </button>
+            <button id="pow" class = "calc-btn hov"> ^ </button> 
+      
+            <button id="seven" class = "calc-btn hov"> 7 </button>
+            <button id="eight" class = "calc-btn hov"> 8 </button>
+            <button id="nine" class = "calc-btn hov"> 9 </button>
+            <button id="divide" class = "calc-btn hov"> / </button>
+          
+            <button id="four" class = "calc-btn hov"> 4 </button>
+            <button id="five" class = "calc-btn hov"> 5 </button>
+            <button id="six" class = "calc-btn hov"> 6 </button>
+            <button id="multiply" class = "calc-btn hov"> x </button>
+          
+            <button id="one" class = "calc-btn hov"> 1 </button>
+            <button id="two" class = "calc-btn hov"> 2 </button>
+            <button id="three" class = "calc-btn hov"> 3 </button>
+            <button id="subtract" class = "calc-btn hov"> - </button>
+        
+            <button id="zero" class = "calc-btn hov"> 0 </button>
+            <button id="point" class = "calc-btn hov"> . </button>
+            <button id="plusminus" class = "calc-btn hov"> &plusmn; </button>
+            <button id="add" class = "calc-btn hov"> + </button>
+      
+            <button id="pi" class = "calc-btn hov"> &pi; </button>
+            <button id="e" class = "calc-btn hov"> e </button>
+            <button id="abs" class = "calc-btn hov"> abs </button>
+            <button id="slope" class = "calc-btn hov"> rate of change </button>	
+          
+            <button id="sin" class = "calc-btn hov"> sin </button>
+            <button id="cos" class = "calc-btn hov"> cos </button>
+            <button id="tan" class = "calc-btn hov"> tan </button>
+            <button id="sq-root" class = "calc-btn hov"> &#8730; </button> <!--update JS to reflect name change-->
+          
+            <button id="nat-log" class = "calc-btn hov"> ln </button> <!--update JS to reflect name change-->
+            <button id="log" class = "calc-btn hov"> log10 </button>
+            <button id="log2" class = "calc-btn hov"> log2 </button>
+            <button id="cancel" class = "calc-btn hov"> cancel </button>
+      
+            <button id="clear" class = "calc-btn hov"> clear </button>
+            <button id="submit" class = "calc-btn hov"> submit </button>
+          </div> <!--end calculator keys-->
+        </div> <!--end calc contains-->
+      </div> <!--end modal content-->
+    </div> <!--end modal/formModal-->
   </main>
   <footer>
     <p>Any issues? Don't hesitate to let Professor Evan know! Or contact...</p>
