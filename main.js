@@ -11,7 +11,7 @@ for (let x = 0; x <= 10; x += 0.1) {
 
 // Display using Plotly
 //var data = [{x:xValues, y:yValues, mode:"lines"}];
-let layout = {title: "y = " + exp, paper_bgcolor: '#edeae5', plot_bgcolor: '#edeae5', font: {
+let layout = {title: "y = " + exp, showlegend: false, paper_bgcolor: '#edeae5', plot_bgcolor: '#edeae5', font: {
   family: 'Inter, monospace',
   size: 14,
   color: '#026670'
@@ -31,6 +31,6 @@ let trace1 = {
 let trace2 = {
   x:xValues, y:yValues, marker: { color: '#026670'}, mode:"lines"
 }
-
+let config = {responsive: true}
 let data = [trace1, trace2]
-Plotly.newPlot("graph", data, layout);
+Plotly.newPlot("graph", data, layout, config);
