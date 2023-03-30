@@ -129,7 +129,7 @@ table {
 }
 
 td, th {
-  height: 3em;
+  height: 3rem;
   min-width: 3rem;
   overflow-x: scroll; /* check how table was fixed in plttr 1 */
   outline: none;
@@ -148,6 +148,26 @@ th {
 td {
   background-color: var(--table-100);
   font-family: "Inter", sans-serif;
+}
+
+.exclude.checkbox {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  outline: 2px solid var(--accent-200);
+  border-radius: 1px;
+  background-color: transparent;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--accent-200);
 }
 
 .selectors {
