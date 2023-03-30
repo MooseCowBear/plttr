@@ -136,6 +136,11 @@ td, th {
   padding: 0 1em;
 }
 
+th.exclude, td.exclude {
+  width: 5rem;
+  padding: 0;
+}
+
 th {
   background-color: var(--table-200);
 }
