@@ -148,3 +148,79 @@ function covsrt(a, totalCoef, ia, numFitCoef) {
 		}
 	}
 }
+
+function gaussj(a, n, b) {
+	const ipiv = Array(n).fill(0.0);
+	const indxc = Array(n).fill(0.0);
+	const indxr = Array(n).fill(0.0);
+
+	let irow = 0;
+	let icol = 0;
+	let big;
+
+	for (let i = 0; i < n; i ++) {
+		big = 0;
+		
+		for(let j = 0; j < n; j ++) {
+			if (ipiv[j] !== 1) {
+				for (let k = 0; k < n; k ++) {
+					if (ipiv[k] === 0) {
+						if (Math.abs(a[j][k]) >= big) {
+							big = Math.abs(a[j][k]);
+							irow = j;
+							icol = k;
+						}
+					}
+				}
+			}
+		}
+		ipiv[icol] += 1;
+		
+		if (irow !== icol) {
+			for (let j = 0; j < n; j ++) {
+				const temp = a[irow][j];
+				a[irow][j] = a[icol][j];
+				a[icol][j] = temp;
+			}
+			const temp = b[irow];
+			b[irow] = b[icol];
+			b[icol] = temp;
+		}
+		indxr[i] = irow;
+		indxc[i] = icol;
+
+		if (a[icol][icol] === 0) {
+			console.log("singular matrix");
+			return;
+		}
+		const pivinv = 1/a[icol][icol];
+		a[icol][icol] = 1;
+
+		for (let j = 0; j < n; j ++) {
+			a[icol][j] *= pivinv;
+		}
+		b[icol] *= pivinv;
+		
+		for (let j = 0; j < n; j ++) {
+			if (j !== icol) {
+				const temp = a[j][icol];
+				a[j][icol] = 0;
+				
+				for (let k = 0; k < n; k ++) {
+					a[j][k] -= a[icol][k] * temp;
+				}
+				b[j] -= b[icol] * temp;
+			}
+		}
+	}
+
+	for (let i = n - 1; i > -1; i --) {
+		if (indxr[i] !== indxc[i]) {
+			for (let j = 0; j < n; j ++) {
+				const temp = a[j][indxr[i]];
+				a[j][indxr[i]] = a[j][indxc[i]];
+				a[j][indxc[i]] = temp;
+			}
+		}
+	}
+}
