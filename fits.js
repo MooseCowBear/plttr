@@ -2,8 +2,8 @@
 
 function nonlinearFit(xs, ys, fit) {
 
-	const covar = Array(5).fill().map(()=> Array(5).fill(0.0)); // 5x5 matrices
-	const alpha = Array(5).fill().map(()=> Array(5).fill(0.0)); 
+	const covar = Array(5).fill().map(() => Array(5).fill(0.0)); // 5x5 matrices
+	const alpha = Array(5).fill().map(() => Array(5).fill(0.0)); 
 
 	const ia = Array(5).fill(0);
 	const a = Array(5).fill(0.0);
@@ -80,4 +80,32 @@ function nonlinearFit(xs, ys, fit) {
 	mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef, values); 
 
 	return [a, covar, true]; 
+}
+
+function powerLawTrans(xs, ys) {
+	//the nonlinear fit needs a reasonable starting point, which we obtain by transforming the data and running a linear fit on the transformation
+
+	const lxs = [];
+	const lys = [];
+
+	for (let i = 0; i < xs.length; i ++) {
+		if (xs[i] > 0 && ys[i] > 0) {
+			lxs.push(Math.log(xs[i]));
+			lys.push(Math.log(ys[i]));
+		}
+	}
+	return [lxs, lys];
+}
+
+function exponentialTrans(xs, ys) {
+	const lxs = [];
+	const lys = [];
+
+	for (let i = 0; i < xs.length; i ++) {
+		if (ys[i] > 0) {
+			lxs.push(xs[i]);
+			lys.push(Math.log(ys[i]));
+		}
+	}
+	return [lxs, lys];
 }
