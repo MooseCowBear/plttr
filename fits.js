@@ -54,12 +54,12 @@ function nonlinearFit(xs, ys, fit) {
 
 	let prevChisq = 1000000;
 
-	const values = {chisq: prevChisq, ochisq: 0, Lambda: -1} //these will be changed in the mrqmin call and we want to keep track of them
+	const values = {chisq: prevChisq, ochisq: 0, Lambda: -1} //these are values we will need to carry over from one iteration to the next
 
 	while (!done) {
 		its += 1; 
 		
-		mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef, values); //covar, alpha, beta passed by reference
+		mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef, values); 
 
 		if (values.chisq < prevChisq) {
 			const test = (prevChisq - values.chisq)/values.chisq;
@@ -83,7 +83,10 @@ function nonlinearFit(xs, ys, fit) {
 }
 
 function powerLawTrans(xs, ys) {
-	//the nonlinear fit needs a reasonable starting point, which we obtain by transforming the data and running a linear fit on the transformation
+	/* both power law and exponential fits need reasonable starting points.
+    these are obtained by running a linear fit on the log values of the data points. 
+    here and in the function below, we tranform to log values, excluding singularities.
+  */
 
 	const lxs = [];
 	const lys = [];
@@ -108,4 +111,40 @@ function exponentialTrans(xs, ys) {
 		}
 	}
 	return [lxs, lys];
+}
+
+function covsrt(a, totalCoef, ia, numFitCoef) {
+	/*this function sorts out the covar matrix so things are in their right place, 
+    which we only really need for the exponential fit. 
+    w/o this the covar matrix is in the upper left corner of the 5x5 matrix we started with, 
+    we want it in the bottom right.
+    alternatively we could omit this and just remember that there was a shift when we go to 
+    retrieve the covariances.
+  */
+
+	for (let i = 0; i < totalCoef; i ++) {
+		for (let j = 0; j < i; j ++) {
+			a[i][j] = 0;
+			a[j][i] = 0;
+		}
+	}
+
+	let k = numFitCoef - 1;
+
+	for (let j = totalCoef - 1; j > -1; j --) {
+		if (ia[j] !== 0) {
+			for (let i = 0; i < totalCoef; i ++) {
+				const temp = a[i][k];
+				a[i][k] = a[i][j];
+				a[i][j] = temp;
+			}
+			
+			for (let i = 0; i < totalCoef; i ++) {
+				const temp = a[k][i];
+				a[k][i] = a[j][i];
+				a[j][i] = temp;
+			}
+			k -= 1;
+		}
+	}
 }
