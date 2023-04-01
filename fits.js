@@ -487,48 +487,35 @@ function makeMatrix(xs, fit) {
 	return A;
 }
 
-//CHNAGE ME TO SWITCH STATEMENT!!! USE TERNARY FOR X == 0
 function funcsLinear(xi, fit) {
 	//a modification of the funcs function as in nPlot. 
-	if (fit === "quadratic") {
-		return [xi**2, xi, 1.0];
-	}
-	else if (fit === "linear") {
-		return [xi, 1.0];
-	}
-	else if (fit === "square law") {
-		return [xi**2];
-	}
-	else if (fit === "inverse") {
-		if (xi !== 0) {
-			return [1/xi];
-		}
-		else {
-			return [0];
-		}
-	}
-	else if (fit === "inverse square") {
-		if (xi !== 0) {
-			return [1/xi**2];
-		}
-		else {
-			return [0];
-		}
-	}
-	else if (fit === "proportional") {
-		return [xi];
-	}
-	else if (fit === "square root") {
-		if (xi >= 0) {
-			return [Math.sqrt(xi)];
-		}
-		else {
-			return [0];
-		}
-	}
-	else { //no relation 
-		return [1.0]; 
-	}
+  let result;
+  switch(fit) {
+    case "quadratic":
+      result = [xi**2, xi, 1.0];
+      break;
+    case "linear":
+      result = [xi, 1.0];
+      break;
+    case "square law":
+      result = [xi**2];
+      break;
+    case "inverse":
+      result = (xi === 0) ? [0] : [1/xi];
+      break;
+    case "inverse square":
+      result = (xi === 0) ? [0] : [1/xi**2];
+      break;
+    case "proportional":
+      result = [xi];
+      break;
+    case "square root":
+      result = xi >= 0 ? [Math.sqrt(xi)] : [0];
+      break;
+    default:
+      result = [1.0];
+  }
+  return result;
 }
 
 function SVDfitWithCovar(xs, ys, fit) {
