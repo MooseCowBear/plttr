@@ -342,6 +342,219 @@ function cancellation(l, eps, e, u, q, m, k) {
 	return [z, converged];
 }
 
+/* 
+  functions to solve for Ax = b, once we have the decomp.
+  matrix operation functions assume that we have the correct sizes
+*/
+
+function invertDiag(q) {
+	const qInverse =  Array(q.length).fill().map(() => Array(q.length).fill(0.0)); 
+
+	for (let i = 0; i < q.length; i ++) {
+    //COULD BE TERNARY OP
+		if (q[i] !== 0) {
+			qInverse[i][i] = 1/q[i];
+		}
+		else {
+			qInverse[i][i] = 0;
+		}
+	}
+	return qInverse;
+}
+
+function dot(v1, v2) {
+	let dotProduct = 0;
+	for (let i = 0; i < v1.length; i ++) {
+		dotProduct += v1[i] * v2[i]
+	}
+	return dotProduct;
+}
+
+function getMatrixCol(B, index, len) {
+	const column = Array(len).fill(0.0);
+	for (let i = 0; i < len; i ++) {
+		column[i] = B[i][index];
+	}
+	return column;
+}
+
+function matrixMult(A, B) {
+	const result = Array(A.length).fill().map(() => Array(B[0].length).fill(0.0)); 
+
+	for (let i = 0; i < A.length; i ++) {
+		for(let j = 0; j < B[0].length; j ++) {
+			const Bcol = getMatrixCol(B, j, A.length);
+			const dotPr = dot(A[i], Bcol);
+			result[i][j] = dotPr;
+		}
+	}
+	return result;
+}
+
+function matrixVectMult(A, v) {
+	const result = [];
+
+	for (let i = 0; i < A.length; i ++) {
+		const dotPr = dot(A[i], v);
+		result.push(dotPr);
+	}
+	return result;
+}
+
+function transpose(A) {
+	const At = Array(A[0].length).fill().map(() => Array(A.length).fill(0.0)); 
+
+	for (let i = 0; i < A.length; i ++) {
+		for (let j = 0; j < A[0].length; j ++) {
+			At[j][i] = A[i][j];
+		}
+	}
+	return At;
+}
+
+function getVariance(v, q, numCoefs) {
+	/*
+    fills diagonal of the covariance matrix
+    from Numerical Recipes
+  */
+	const cvm = Array(numCoefs).fill().map(() => Array(numCoefs).fill(0.0)); 
+
+	for (let i = 0; i < numCoefs; i ++) {
+		let sum = 0;
+		for (let j = 0; j < numCoefs; j ++) {
+			if (q[j] !== 0) {
+				sum += (v[i][j]/q[j])**2;
+			}
+		}
+		cvm[i][i] = sum;
+	}
+	return cvm;
+}
+
+function svdCovariance(v, q, numCoefs) {
+  /* 
+    makes covariance matrix.
+    from Numerical Recipes.
+  */
+
+	const qti = Array(numCoefs).fill(0.0);
+	const cvm = getVariance(v, q, numCoefs); //first get diagonal
+
+	for (let i = 0; i < numCoefs; i ++) { //now calc nondiagonal
+		qti[i] = 0;
+		if (q[i] !== 0) {
+			qti[i] = 1/(q[i]**2);
+		}
+	}
+	for (let i = 0; i < numCoefs; i ++) {
+		for (let j = 0; j < i; j ++) {
+			let sum = 0;
+			for (let k = 0; k < numCoefs; k ++) {
+				sum += v[i][k] * v[j][k] * qti[k];
+			}
+			cvm[i][j] = sum;
+			cvm[j][i] = sum;
+		}
+	}
+	return cvm;
+}
+
+function getNumCoefs(fit) {
+	//tells us how many columns our starting matrix should have
+	if (fit === "quadratic") {
+		return 3;
+	}
+	else if (fit === "linear") {
+		return 2;
+	}
+	else {
+		return 1;
+	}
+}
+
+function makeMatrix(xs, fit) {
+  //create our starting matrix. 
+	const numCoefs = getNumCoefs(fit);
+	const numPts = xs.length;
+	const A = Array(numPts).fill().map(()=> Array(numCoefs).fill(0.0)); 
+	
+	for (let i = 0; i < numPts; i ++) {
+		const afuncs = funcsLinear(xs[i], fit); 
+		for (let j = 0; j < numCoefs; j ++) {
+			A[i][j] = afuncs[j];
+		}
+	}
+	return A;
+}
+
+//CHNAGE ME TO SWITCH STATEMENT!!! USE TERNARY FOR X == 0
+function funcsLinear(xi, fit) {
+	//a modification of the funcs function as in nPlot. 
+	if (fit === "quadratic") {
+		return [xi**2, xi, 1.0];
+	}
+	else if (fit === "linear") {
+		return [xi, 1.0];
+	}
+	else if (fit === "square law") {
+		return [xi**2];
+	}
+	else if (fit === "inverse") {
+		if (xi !== 0) {
+			return [1/xi];
+		}
+		else {
+			return [0];
+		}
+	}
+	else if (fit === "inverse square") {
+		if (xi !== 0) {
+			return [1/xi**2];
+		}
+		else {
+			return [0];
+		}
+	}
+	else if (fit === "proportional") {
+		return [xi];
+	}
+	else if (fit === "square root") {
+		if (xi >= 0) {
+			return [Math.sqrt(xi)];
+		}
+		else {
+			return [0];
+		}
+	}
+	else { //no relation 
+		return [1.0]; 
+	}
+}
+
+function SVDfitWithCovar(xs, ys, fit) {
+	const A = makeMatrix(xs, fit);
+
+	m = A.length; //rows
+	n = A[0].length; //cols
+	tol = 0.0000000000000000000000000000001 //NOTE WHAT PAPER SAID THIS SHOULD BE
+	eps = 0.00000001; 
+
+	let sigma, u, v;
+
+	[sigma, u, v] = SVD(m, n, eps, tol, A);
+
+	const sigmaInverse = invertDiag(sigma);
+	const uT = transpose(u); 
+
+	let pseudoInverse = matrixMult(v, sigmaInverse);
+	pseudoInverse = matrixMult(pseudoInverse, uT);
+
+	const coefs = matrixVectMult(pseudoInverse, ys);
+	const covar = svdCovariance(v, sigma, n); 
+
+	return [coefs, covar];
+}
+
 //functions for the non-linear fits. i.e. exponential and power law.
 
 function nonlinearFit(xs, ys, fit) {
