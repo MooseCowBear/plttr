@@ -72,7 +72,7 @@ function nonlinearFit(xs, ys, fit) {
 
 		if (its > maxIts) {
 			console.log("no convergence");
-			return [a, covar, true]; //no convergence but we have a fit to graph - SHOULD THIS RETURN - DONT WE WANT THE COVAR SORTED?
+			done = true;
 		}
 	}
 	values.Lambda = 0;
@@ -84,7 +84,8 @@ function nonlinearFit(xs, ys, fit) {
 }
 
 function powerLawTrans(xs, ys) {
-	/* both power law and exponential fits need reasonable starting points.
+	/* 
+    both power law and exponential fits need reasonable starting points.
     these are obtained by running a linear fit on the log values of the data points. 
     here and in the function below, we tranform to log values, excluding singularities.
   */
@@ -115,7 +116,8 @@ function exponentialTrans(xs, ys) {
 }
 
 function covsrt(a, totalCoef, ia, numFitCoef) {
-	/*this function sorts out the covar matrix so things are in their right place, 
+	/*
+    this function sorts out the covar matrix so things are in their right place, 
     which we only really need for the exponential fit. 
     w/o this the covar matrix is in the upper left corner of the 5x5 matrix we started with, 
     we want it in the bottom right.
@@ -227,8 +229,11 @@ function gaussj(a, n, b) {
 }
 
 function mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef, values) {	
+  /*
+    the function responsbile for trials. lambda is our step size. 
+  */
 	const atry = Array(totalCoef).fill(0.0); //holds temporary coef values
-	const da = Array(totalCoef).fill(0.0);
+	const da = Array(totalCoef).fill(0.0); 
 
 	if (values.Lambda < 0) { //the first round
 		values.Lambda = 0.001;
@@ -247,7 +252,6 @@ function mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef
 		da[j] = beta[j];
 	}
 	
-	//gaussian elim
 	gaussj(covar, numFitCoef, da); 
 
 	if (values.Lambda === 0) { //last call puts the covariance matrix in its right place
@@ -265,7 +269,7 @@ function mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef
 
 	values.chisq = mrqcof(xs, ys, numPts, atry, totalCoef, ia, numFitCoef, covar, da);
 
-	if (values.chisq < values.ochisq) {//did the trial succeed? if so, keep it and decrease the step
+	if (values.chisq < values.ochisq) {//did the trial succeed? if so, keep the results and decrease the step
 		values.Lambda *= 0.1;
 		values.ochisq = values.chisq;
 
@@ -279,7 +283,7 @@ function mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef
 			a[i] = atry[i]; 
 		}
 	}
-	else { //a fail, so make the step bigger
+	else { //a fail, so make the step bigger. discard results. 
 		values.Lambda *= 10;
 		values.chisq = values.ochisq;
 	}
@@ -328,4 +332,20 @@ function mrqcof(xs, ys, numPts, a, totalCoef, ia, numFitCoef, alpha, beta) {
 		}	
 	}
 	return chisq;
+}
+
+function funcsNonlinear(xi, a) { //as in nPlot
+	const y = a[0] * (xi**a[1]) + a[2] * Math.exp(xi * a[3]) + a[4]; 
+	const dyda =  Array(5).fill(0.0);
+	
+	dyda[0] = xi**a[1]; 
+  
+	if (xi > 0) {
+		dyda[1] = a[0] * (xi**a[1]) * Math.log(xi);
+	}
+	dyda[2] = Math.exp(xi * a[3]);
+	dyda[3] = a[2] * xi * Math.exp(xi * a[3]);
+	dyda[4] = 1.0;
+
+	return [y, dyda];
 }
