@@ -72,11 +72,12 @@ function nonlinearFit(xs, ys, fit) {
 
 		if (its > maxIts) {
 			console.log("no convergence");
-			return [a, covar, true]; //no convergence but we have a fit to graph
+			return [a, covar, true]; //no convergence but we have a fit to graph - SHOULD THIS RETURN - DONT WE WANT THE COVAR SORTED?
 		}
 	}
 	values.Lambda = 0;
 
+  //one last call to get the correct covariance matrix
 	mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef, values); 
 
 	return [a, covar, true]; 
@@ -223,4 +224,108 @@ function gaussj(a, n, b) {
 			}
 		}
 	}
+}
+
+function mrqmin(xs, ys, numPts, a, totalCoef, ia, covar, alpha, beta, numFitCoef, values) {	
+	const atry = Array(totalCoef).fill(0.0); //holds temporary coef values
+	const da = Array(totalCoef).fill(0.0);
+
+	if (values.Lambda < 0) { //the first round
+		values.Lambda = 0.001;
+		values.ochisq = mrqcof(xs, ys, numPts, a, totalCoef, ia, numFitCoef, alpha, beta);
+		
+		for (let j = 0; j < totalCoef; j ++) {
+			atry[j] = a[j];
+		}
+	}
+
+	for (let j = 0; j < numFitCoef; j ++) {
+		for (let k = 0; k < numFitCoef; k ++) {
+			covar[j][k] = alpha[j][k];
+		}
+		covar[j][j] = alpha[j][j] * (1 + values.Lambda);
+		da[j] = beta[j];
+	}
+	
+	//gaussian elim
+	gaussj(covar, numFitCoef, da); 
+
+	if (values.Lambda === 0) { //last call puts the covariance matrix in its right place
+		covsrt(covar, totalCoef, ia, numFitCoef); 
+		return;
+	}
+
+	let jj = -1;
+	for (let i = 0; i < totalCoef; i ++) {
+		if (ia[i] !== 0) {
+			jj += 1;
+			atry[i] = a[i] + da[jj];
+		}
+	}
+
+	values.chisq = mrqcof(xs, ys, numPts, atry, totalCoef, ia, numFitCoef, covar, da);
+
+	if (values.chisq < values.ochisq) {//did the trial succeed? if so, keep it and decrease the step
+		values.Lambda *= 0.1;
+		values.ochisq = values.chisq;
+
+		for (let i = 0; i < numFitCoef; i ++) {
+			for (let j = 0; j < numFitCoef; j ++) {
+				alpha[i][j] = covar[i][j];
+			}
+			beta[i] = da[i];
+		}
+		for (let i = 0; i < totalCoef; i ++) {
+			a[i] = atry[i]; 
+		}
+	}
+	else { //a fail, so make the step bigger
+		values.Lambda *= 10;
+		values.chisq = values.ochisq;
+	}
+}
+
+function mrqcof(xs, ys, numPts, a, totalCoef, ia, numFitCoef, alpha, beta) {
+  /*
+    this function gives us the the values of the coefficients, the covariance matrix, 
+    and the chisq of our "trial". We compare it to the prev trial to see if it's an 
+    improvement (i.e. better chisq means improvement), 
+  */
+	for (let i = 0; i < numFitCoef; i ++) {
+		for (let j = 0; j < i + 1; j ++) {
+			alpha[i][j] = 0;
+		}
+		beta[i] = 0;
+	}
+	let chisq = 0;
+	
+	for (let i = 0; i < numPts; i++) {
+		const [ymod, dyda] = funcsNonlinear(xs[i], a);
+		const dy = ys[i] - ymod;
+		let jj = -1; //this and kk keep the relevant parts in the upper left of the covar matrix
+
+		for (let j = 0; j < totalCoef; j ++) {
+			if (ia[j] !== 0) {
+				jj += 1;
+				const wt = dyda[j];
+				let kk = -1;
+			
+				for (let k = 0; k < j + 1; k ++) {
+					if (ia[k] !== 0) {
+						kk += 1;
+						alpha[jj][kk] += wt * dyda[k]; 
+					}
+				}
+				beta[jj] += dy * wt
+			}
+		}
+		chisq += dy * dy;
+	}
+
+	for (let i = 0; i < numFitCoef; i ++) {
+		for (let j = 0; j < i; j ++) {
+			alpha[j][i] = alpha[i][j];
+		}	
+	}
+	return chisq;
 }
