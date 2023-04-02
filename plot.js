@@ -19,7 +19,7 @@ let layout = {
   plus a plot function. 
 */
 
-function plot() {
+function graph(fit) {
   /* not finished want this to be where all the action is*/
   const graph = document.getElementById("graph");
 
@@ -44,7 +44,68 @@ function getGraphTitle(fit) {
   return titles[fit];
 }
 
+function getXValuesForLine(xRange) {
+  const xsToGraph = []; 
+	const incr = (xRange.max - xRange.min)/100; 
+
+	let curr = xRange.min;
+	while (curr <= xRange.max) {
+		xsToGraph.push(curr);
+		curr += incr; 
+	}
+  return xsToGraph
+}
+
+function fitPoints(dataObject, fitSelection, xRange) {
+  /*
+    here we take the data we got from the table, clean and fit it.
+    we return a bool to indicate whether there is a fit to graph.
+    also we return points that will make up the regression line, and the 
+    coefficients and covariance matrix, which will be used to report the fit
+  */
+
+	const xsToGraph = getXValuesForLine(xRange);
+
+	if (fitSelection === "exactly proportional") {
+		const toGraph = solveForY(xsToGraph, fitSelection, []);
+		return [true, [], [], toGraph[0], toGraph[1]]; 
+	}
+	else {
+		const [cleanXs, cleanYs] = cleanData(dataObject.activeX, dataObject.activeY, fitSelection);
+
+		if (cleanXs.length < 3) { //there's not enough data for a fit
+			return [false, [], [], [], []]; 
+		}
+		else
+		{
+			if (fitSelection === "exponential" || fitSelection === "power law") {
+				//call nonlinear fitting routine
+				const [coefs, covar, graph] = nonlinearFit(cleanXs, cleanYs, fitSelection);
+				
+				if (graph) {
+					const toGraph = solveForY(xsToGraph, fitSelection, coefs);
+					return [true, coefs, covar, toGraph[0], toGraph[1]]; 
+				}
+				else //not enough data points for nonlinear fit
+				{
+					return [false, [], [], [], []];
+				}
+			}
+			else { //one of the linear fits
+				const [coefs, covar] = SVDfitWithCovar(cleanXs, cleanYs, fitSelection); 
+				const toGraph = solveForY(xsToGraph, fitSelection, coefs);
+				
+				return [true, coefs, covar, toGraph[0], toGraph[1]]; 
+			}
+		}
+	}
+}
+
 function solveForY(xs, fit, coefs) {
+  /* 
+    gets the y values needed for the plot 
+    returns object that plotly will use to draw the regression line 
+  */
 	const xsToGraph = [];
 	const ysToGraph = [];
 
