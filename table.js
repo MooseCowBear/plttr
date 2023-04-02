@@ -200,7 +200,7 @@ function addFormulaColumn(newColName) {
 function updateTableValues(event) {
   if (event.target.classList.contains(".edit")) {
     const val = event.target.innerText; 
-    if (checkInput(val)) {
+    if (checkInput(val)) { 
       event.target.border = "none"; //remove warning border if there was one
     }
     else { 
@@ -216,4 +216,12 @@ function updateTableValues(event) {
       }
     }
   }
+}
+
+function checkInput(input) { 
+	const inp = input.trim(); 
+	if(isFinite(inp)){ 
+  		return true;
+	}
+	return false;
 }
