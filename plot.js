@@ -42,12 +42,12 @@ function getPointPlotObjects(dataObject) {
     error_x: {
       type: 'data',
       array: dataObject.activeXerr,
-      visible: true
+      visible: dataObject.activeXerr.every(elem => elem === 0) ? false : true
     },
     error_y: {
       type: 'data',
       array: dataObject.activeYerr,
-      visible: true
+      visible: dataObject.activeYerr.every(elem => elem === 0) ? false : true
     },
     marker: {
       color: ACTIVE_PTS
@@ -62,12 +62,12 @@ function getPointPlotObjects(dataObject) {
     error_x: {
       type: 'data',
       array: dataObject.inactiveXerr,
-      visible: true
+      visible: dataObject.inactiveXerr.every(elem => elem === 0) ? false : true
     },
     error_y: {
       type: 'data',
       array: dataObject.inactiveYerr,
-      visible: true
+      visible: dataObject.inactiveYerr.every(elem => elem === 0) ? false : true
     },
     marker: {
       color: INACTIVE_PTS
@@ -97,9 +97,6 @@ function getGraphTitle(fit) {
   return titles[fit];
 }
 
-/* change dataObject to be the objects we need for plotly. 
-  need to change fitPoints and getXValuesForLine and getXMinAndMax!!!
-*/
 function fitPoints(dataObject, fitSelection) {
   /*
     here we take the data we got from the table, clean and fit it.
