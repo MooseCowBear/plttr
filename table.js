@@ -101,7 +101,6 @@ function checkInput(input) {
 /*
 need to add addcolumn function 
 - add column will need access to all the formula calculator/enterer functions
-also functions for renaming the content editable table headers
 and for recalculating table when new data is entered
 */
 
@@ -176,4 +175,23 @@ function checkName(colName, cellIndex) {
 		}
 	}
 	return true; 
+}
+
+function addFormulaColumn(newColName) {
+	const numRows = document.querySelector("table").rows.length; 
+	const currNumCols = document.getElementById('table').rows[0].cells.length;  
+
+  for (const [i, row] of [...document.querySelectorAll("#table tr")].entries()) {
+    const cell = document.createElement(i ? "td" : "th"); 
+
+		if (cell.nodeName === "TH") {
+      cell.innerText = newColName;
+    }
+		else {
+			const formula = formulaMap.get(currNumCols); //SHOULD THESE BE IN THIS FILE OR WITH THE FORMULA ENTERER STUFF or does the map belong in the main file?
+			const cellValue = compute(formula, i, numRows); 
+			cell.innerText = cellValue;
+		}
+    row.appendChild(cell); 
+	}
 }
