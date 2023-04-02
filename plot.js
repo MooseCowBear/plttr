@@ -16,19 +16,10 @@ const FONT_FAMILY = 'Inter, monospace';
 
 //will need a function that fits, graphs and reports...to be called when correct event listener triggered
 function fitGraphReport(fitSelection, independent, dependent, independentErr, dependentErr) {
-  
-  //first check that selected columns are still in the table
-	let columns = [];
 
-	for (let i = 0; i < table.rows[0].cells.length; i ++) {
-		columns.push(table.rows[0].cells[i].innerText); 
-	}
-	if (!columns.includes(independent) || !columns.includes(dependent)) {
-		return null 
-	}
-	if ( (independentErr != "none" && !columns.includes(independentErr)) || (dependentErr != "none" && !columns.includes(dependentErr)) ) {
-		return null
-	}
+	if (!validColumnSelection(independent, dependent, independentErr, dependentErr)) {
+    return;
+  }
 
   const graphDiv = document.querySelector(".graph-wrapper");
   
@@ -57,6 +48,21 @@ function fitGraphReport(fitSelection, independent, dependent, independentErr, de
 	else {
 		addNotEnoughDataWarning(fitSelection);
 	}
+}
+
+function validColumnSelection(independent, dependent, independentErr, dependentErr) {
+  let columns = [];
+
+	for (let i = 0; i < table.rows[0].cells.length; i ++) {
+		columns.push(table.rows[0].cells[i].innerText); 
+	}
+	if (!columns.includes(independent) || !columns.includes(dependent)) {
+		return false;
+	}
+	if ( (independentErr != "none" && !columns.includes(independentErr)) || (dependentErr != "none" && !columns.includes(dependentErr)) ) {
+		return false;
+	}
+  return true;
 }
 
 function graph(data, fit) { 
