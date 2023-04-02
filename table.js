@@ -101,6 +101,8 @@ function checkInput(input) {
 /*
 need to add addcolumn function 
 - add column will need access to all the formula calculator/enterer functions
+also functions for renaming the content editable table headers
+and for recalculating table when new data is entered
 */
 
 function addRow() { 
@@ -122,3 +124,36 @@ function addRow() {
    	}
 	}
 }
+
+function updateColumnName(event, x = true) {
+  let newColName = e.target.innerText;
+  const index = x ? 1: 2;
+	const validName = checkName(newColName, index); //ADD THIS FUNCTION TO THIS FILE
+
+  if (!validName) {
+		newColName = x ? "x" : "y"; 
+		e.target.innerText = newColName;
+	}
+
+  const err = x ? document.getElementById("x-err") : document.getElementById("y-err");
+  const col = x ? document.getElementById("x-col") : document.getElementById("y-col"); //where is this used??
+
+  const formulaBtn = x ? document.getElementById("x-btn") : document.getElementById("y-btn");
+  const errFormulaBtn = x ? document.getElementById("x-err-btn") : document.getElementById("y-err-btn");
+
+  err.innerText = "&plusmn; " + newColName;
+  formulaBtn.innerText = newColName;
+  errFormulaBtn.innerText = "&plusmn; " + newColName;
+
+  const dropdowns = x ? document.querySelectorAll('.x-dropdown') : document.querySelectorAll('.y-dropdown');
+  const errDropdowns = x ? document.querySelectorAll('.x-err-dropdown') : document.querySelectorAll('.y-err-dropdown');
+
+  dropdowns.forEach(elem => {
+    elem.innerText = newColName;
+  });
+
+  errDropdowns.forEach(elem => {
+    elem.innerText = "&plusmn; " + newColName;
+  });
+}
+
