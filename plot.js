@@ -1,4 +1,4 @@
-// functions for the graph and graph report
+// functions for the graph and the graph report
 
 //except for title, will stay the same
 let layout = {
@@ -18,6 +18,8 @@ let layout = {
   want functions to return the jsons that are passed to the plot function.
   plus a plot function. 
 */
+
+
 
 function solveForY(xs, fit, coefs) {
 	const xsToGraph = [];
@@ -221,9 +223,6 @@ function computeRMSE(xs, ys, fit, coefs) {
 	return [Math.sqrt(sumOfErrSq/N), addInf];
 }
 
-
-//BELOW WILL NEED ADJUSTMENTS...
-
 function reportRMSE(dataObject, fitSelection, coefs, fitToReport) {
 	const RMSE = document.getElementById("rmse");
   RMSE.innerText = "";
@@ -232,19 +231,38 @@ function reportRMSE(dataObject, fitSelection, coefs, fitToReport) {
 		let [rmse, addInf] = computeRMSE(dataObject.activeX, dataObject.activeY, fitSelection, coefs);
 		
 		if (addInf) {
-			RMSE.innerText = "RMSE: " + rmse + " + " + "&infin;";
+			RMSE.innerText = `RMSE: ${rmse} &infin;`;
 		}
 		else {
-			RMSE.innerText = "RMSE: " + rmse;
+			RMSE.innerText = `RMSE: ${rmse}`;
 		}
 	}
 }
 
 function addNotEnoughDataWarning(fitSelection) {
 	const fitReport = document.getElementById("coefs"); 
-	fitReport.innerText = "not enough data for " + fitSelection + " fit"; 
+	fitReport.innerText = `not enough data for ${fitSelection} fit`; 
 }
 
+function getGraphTitle(fit) {
+  const titles = { 
+    "quadratic": "y = Ax\u00B2 + Bx + C",
+    "linear": "y = Ax + B",
+    "square law": "y = Ax\u00B2",
+    "inverse": "y = A/x",
+    "inverse square": "y = A/x\u00B2",
+    "proportional": "y = Ax",
+    "exactly proportional": "y = x",
+    "square root": "y = A\u221Ax",
+    "exponential": "y = Ae\u1D2D\u02E3 + C",
+    "power law": "y = Ax\u1D47",
+    "no relation": "y = A",
+    "none": ""
+  }
+  return titles[fit];
+}
+
+//switch to switch - return equation to go in title of plot - also use formatted strings
 function reportFit(fit, coefs, covar) {
 	const eqParagraph = document.getElementById("equation");	//NEED TO MAKE SURE JS HAS A PLACE FOR THESE THINGS
 	const coefParagraph = document.getElementById("coefs");
