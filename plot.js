@@ -8,42 +8,6 @@ const INACTIVE_PTS = '#949494'; //'#A9A9A9' a bit lighter if the first is too da
 const FONT_COLOR = '#026670';
 const FONT_FAMILY = 'Inter, monospace';
 
-//except for title, will stay the same - should be returned by a function
-let layout = {
-  title: "", //THIS WILL CHANGE = eq from reportRMSE??
-  showlegend: false, 
-  paper_bgcolor: BACKGROUND_COLOR, //background color of the graph - can be in variable
-  plot_bgcolor: BACKGROUND_COLOR, 
-  font: {
-    family: FONT_FAMILY,
-    size: 14,
-    color: FONT_COLOR //same color as line. put in variable
-  } 
-};
-
-/* the way active, inactive points will be returned. 
-let points = {
-  x: [0, 1, 2, 3, 4, 5],  //these come from data object
-  y: [1.5, 1, 1.3, 0.7, 0.8, 0.9], 
-  marker:{
-    color: 'hsla(185, 96%, 22%, 0.7)' //can put this in a variable - active points
-  },
-  mode: 'markers', //these two stay the same
-  type: 'scatter'
-};
-
-for error bars, add after y entry above
-error_y: {
-    type: 'data',
-    array: [0.5, 1, 2],
-    visible: true
-  }
-to enter array, type: 'data'
-  error_x: {
-    }
-*/
-
-
 /*
   going to need up to 3 plots: active points, inactive points, regression line. 
   want functions to return the jsons that are passed to the plot function.
@@ -52,9 +16,21 @@ to enter array, type: 'data'
 
 //will need a function that fits, graphs and reports...to be called when correct event listener triggered
 
-function graph(fit) {
-  /* not finished want this to be where all the action is*/
+function graph(data, fit) { 
   const graph = document.getElementById("graph");
+  const config = {responsive: true}
+
+  const layout = {
+    title: getGraphTitle(fit), //is this okay? need to test
+    showlegend: false, 
+    paper_bgcolor: BACKGROUND_COLOR,
+    plot_bgcolor: BACKGROUND_COLOR, 
+    font: {
+      family: FONT_FAMILY,
+      size: 14,
+      color: FONT_COLOR 
+    } 
+  };
 
   Plotly.newPlot("graph", data, layout, config);
 }
