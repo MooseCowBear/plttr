@@ -126,9 +126,14 @@ function addRow() {
 }
 
 function updateColumnName(event, x = true) {
+  /*
+    when user updates x, y column names, need to populate throughout.
+    if they attempt to change to a name that is already taken or to none, 
+    refuse the change and revert to original name.
+  */
   let newColName = e.target.innerText;
   const index = x ? 1: 2;
-	const validName = checkName(newColName, index); //ADD THIS FUNCTION TO THIS FILE
+	const validName = checkName(newColName, index);
 
   if (!validName) {
 		newColName = x ? "x" : "y"; 
@@ -136,8 +141,6 @@ function updateColumnName(event, x = true) {
 	}
 
   const err = x ? document.getElementById("x-err") : document.getElementById("y-err");
-  const col = x ? document.getElementById("x-col") : document.getElementById("y-col"); //where is this used??
-
   const formulaBtn = x ? document.getElementById("x-btn") : document.getElementById("y-btn");
   const errFormulaBtn = x ? document.getElementById("x-err-btn") : document.getElementById("y-err-btn");
 
