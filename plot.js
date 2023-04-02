@@ -31,7 +31,19 @@ let points = {
   mode: 'markers', //these two stay the same
   type: 'scatter'
 };
+
+for error bars, add after y entry above
+error_y: {
+    type: 'data',
+    array: [0.5, 1, 2],
+    visible: true
+  }
+to enter array, type: 'data'
+  error_x: {
+    }
 */
+
+
 /*
   going to need up to 3 plots: active points, inactive points, regression line. 
   want functions to return the jsons that are passed to the plot function.
@@ -45,6 +57,50 @@ function graph(fit) {
   const graph = document.getElementById("graph");
 
   Plotly.newPlot("graph", data, layout, config);
+}
+
+function getPointPlotObjects(dataObject) {
+  let active = {
+    x: dataObject.activeX, 
+    y: dataObject.activeY,
+    error_x: {
+      type: 'data',
+      array: dataObject.activeXerr,
+      visible: true
+    },
+    error_y: {
+      type: 'data',
+      array: dataObject.activeYerr,
+      visible: true
+    },
+    marker: {
+      color: ACTIVE_PTS
+    },
+    mode: 'markers', 
+    type: 'scatter'
+  };
+
+  let inactive = {
+    x: dataObject.inactiveX, 
+    y: dataObject.inactiveY,
+    error_x: {
+      type: 'data',
+      array: dataObject.inactiveXerr,
+      visible: true
+    },
+    error_y: {
+      type: 'data',
+      array: dataObject.inactiveYerr,
+      visible: true
+    },
+    marker: {
+      color: INACTIVE_PTS
+    },
+    mode: 'markers', 
+    type: 'scatter'
+  };
+
+  return {active: active, inactive: inactive};
 }
 
 function getGraphTitle(fit) {
@@ -65,6 +121,9 @@ function getGraphTitle(fit) {
   return titles[fit];
 }
 
+/* change dataObject to be the objects we need for plotly. 
+  need to change fitPoints and getXValuesForLine and getXMinAndMax!!!
+*/
 function fitPoints(dataObject, fitSelection) {
   /*
     here we take the data we got from the table, clean and fit it.
