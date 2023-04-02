@@ -48,7 +48,16 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
       getPoint(independentColIndex, dependentColIndex, independentErrIndex, dependentErrIndex, activeXs, activeYs, activeXerrs, activeYerrs);
     }
 	}
-	return {"activeX": activeXs, "activeY": activeYs, "inactiveX": inactiveXs, "inactiveY": inactiveYs, "activeXerr": activeXerrs, "activeYerr": activeYerrs, "inactiveXerr": inactiveXerrs, "inactiveYerr": inactiveYerrs}; //for graphing and fitting
+	return {
+    activeX: activeXs, 
+    activeY: activeYs, 
+    inactiveX: inactiveXs, 
+    inactiveY: inactiveYs, 
+    activeXerr: activeXerrs, 
+    activeYerr: activeYerrs, 
+    inactiveXerr: inactiveXerrs, 
+    inactiveYerr: inactiveYerrs
+  }; 
 }
 
 function getPoint(xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErrs) {		
