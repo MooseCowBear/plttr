@@ -8,15 +8,11 @@ const INACTIVE_PTS = '#949494'; //'#A9A9A9' a bit lighter if the first is too da
 const FONT_COLOR = '#026670';
 const FONT_FAMILY = 'Inter, monospace';
 
-/*
-  going to need up to 3 plots: active points, inactive points, regression line. 
-  want functions to return the jsons that are passed to the plot function.
-  plus a plot function. 
-*/
-
-//will need a function that fits, graphs and reports...to be called when correct event listener triggered
 function fitGraphReport(fitSelection, independent, dependent, independentErr, dependentErr) {
-
+  /* 
+    the main function to do the fit, make the graph, report the fit. called when 
+    all 5 selectors have been chosen. 
+  */
 	if (!validColumnSelection(independent, dependent, independentErr, dependentErr)) {
     return;
   }
@@ -32,7 +28,7 @@ function fitGraphReport(fitSelection, independent, dependent, independentErr, de
     reportRMSE(dataObject, fitSelection, [], false);
     reportFit(fitSelection, [], []);
     graphDiv.style.display = "flex";
-    return; //do we need to return anything, only did for resizing before...
+    return; 
   }
 
   const [fitToReport, coefs, covar, line] = fitPoints(dataObject, fitSelection);
@@ -51,6 +47,11 @@ function fitGraphReport(fitSelection, independent, dependent, independentErr, de
 }
 
 function validColumnSelection(independent, dependent, independentErr, dependentErr) {
+  /* 
+    since users can change the names of the editable columns at any time, want to make 
+    sure that the columns chosen for the fit still match columns in the table before 
+    trying to get data
+  */
   let columns = [];
 
 	for (let i = 0; i < table.rows[0].cells.length; i ++) {
