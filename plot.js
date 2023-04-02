@@ -101,6 +101,40 @@ function fitPoints(dataObject, fitSelection, xRange) {
 	}
 }
 
+function getRange(values) {
+	let min = Math.min(...values); 
+	let max = Math.max(...values);
+
+	const diff = max - min;
+	const sci = diff.toExponential();
+	const index = sci.indexOf("e"); 
+	const base = parseInt(sci.slice(0, index)); 
+
+	const power = parseInt(sci.slice(index + 1)); //getting the power of the difference
+	const padding = 10**power; //dont want data points to be right on the edge of the graph
+	
+	//rounding to the nearest "nice" number
+	if (power < 0) {
+		min = roundDecimal(min - padding, Math.abs(power));
+		max = roundDecimal(max + padding, Math.abs(power));
+	}
+	else {
+		min = roundInt(min - padding, power);
+		max = roundInt(max + padding, power);
+	}
+	return {"min": min, "max": max}
+}
+
+/* helper functions for getRange */
+function roundDecimal(num, places) {
+    const multiplier = Math.pow(10, places);
+    return Math.round(num * multiplier) / multiplier;
+}
+
+function roundInt(num, pow) {
+  return Math.round(num/10**pow)*10**pow;
+}
+
 function solveForY(xs, fit, coefs) {
   /* 
     gets the y values needed for the plot 
