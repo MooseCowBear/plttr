@@ -19,6 +19,13 @@ let layout = {
   plus a plot function. 
 */
 
+function plot() {
+  /* not finished want this to be where all the action is*/
+  const graph = document.getElementById("graph");
+
+  Plotly.newPlot("graph", data, layout, config);
+}
+
 function getGraphTitle(fit) {
   const titles = { 
     "quadratic": "y = Ax\u00B2 + Bx + C",
@@ -122,7 +129,14 @@ function solveForY(xs, fit, coefs) {
         ysToGraph.push(coefs[0]); 
       }
   }
-  return [xsToGraph, ysToGraph];
+
+  const line = {
+    x: xsToGraph, 
+    y: ysToGraph, 
+    marker: { color: '#026670'}, 
+    mode:"lines" //"lines is what connects the points"
+  }
+  return line;
 }
 
 function isWhole(num) {
