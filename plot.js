@@ -44,18 +44,6 @@ function getGraphTitle(fit) {
   return titles[fit];
 }
 
-function getXValuesForLine(xRange) {
-  const xsToGraph = []; 
-	const incr = (xRange.max - xRange.min)/100; 
-
-	let curr = xRange.min;
-	while (curr <= xRange.max) {
-		xsToGraph.push(curr);
-		curr += incr; 
-	}
-  return xsToGraph
-}
-
 function fitPoints(dataObject, fitSelection, xRange) {
   /*
     here we take the data we got from the table, clean and fit it.
@@ -101,12 +89,23 @@ function fitPoints(dataObject, fitSelection, xRange) {
 	}
 }
 
+function getXValuesForLine(xRange) {
+  const xsToGraph = []; 
+	const incr = (xRange.max - xRange.min)/100; 
+
+	let curr = xRange.min;
+	while (curr <= xRange.max) {
+		xsToGraph.push(curr);
+		curr += incr; 
+	}
+  return xsToGraph
+}
+
 function getRange(values) {
 	let min = Math.min(...values); 
 	let max = Math.max(...values);
 
-	const diff = max - min;
-	const sci = diff.toExponential();
+	const sci = (max - min).toExponential();
 	const index = sci.indexOf("e"); 
 	const base = parseInt(sci.slice(0, index)); 
 
@@ -133,6 +132,27 @@ function roundDecimal(num, places) {
 
 function roundInt(num, pow) {
   return Math.round(num/10**pow)*10**pow;
+}
+
+function cleanData(xs, ys, fit) {
+  /*
+    need to remove any duplicate values.
+    in the case of power law and square root fits, we need to remove any points with
+    negative x-values. 
+  */
+	const cleanXs = [];
+	const cleanYs = [];
+	const seen = new Set();
+
+  for (let i = 0; i < xs.length; i ++) {
+    const point = `${xs[i]}, ${ys[i]}`;
+		if (!seen.has(point) && (xs[i] >= 0 || (fit != "power law" && fit != "square root"))) {
+			cleanXs.push(xs[i]);
+			cleanYs.push(ys[i]);
+			seen.add(point);
+		}
+  }
+	return [cleanXs, cleanYs]; 
 }
 
 function solveForY(xs, fit, coefs) {
