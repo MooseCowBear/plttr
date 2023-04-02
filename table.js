@@ -157,3 +157,20 @@ function updateColumnName(event, x = true) {
   });
 }
 
+function checkName(colName, cellIndex) {
+  /*
+    need to make sure there are no columns with the same name,
+    or that are named none. 
+  */
+	const strippedColName = colName.trim().toLowerCase();
+	if (strippedColName === "none") {
+		return false;
+	}
+
+	for (let i = 1; i < table.rows[0].cells.length; i++) {
+		if (i !== cellIndex && table.rows[0].cells[i].innerText === strippedColName) {
+			return false;
+		}
+	}
+	return true; 
+}
