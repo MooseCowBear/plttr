@@ -15,13 +15,56 @@ const FONT_FAMILY = 'Inter, monospace';
 */
 
 //will need a function that fits, graphs and reports...to be called when correct event listener triggered
+function fitGraphReport(fitSelection, independent, dependent, independentErr, dependentErr) {
+  
+  //first check that selected columns are still in the table
+	let columns = [];
+
+	for (let i = 0; i < table.rows[0].cells.length; i ++) {
+		columns.push(table.rows[0].cells[i].innerText); 
+	}
+	if (!columns.includes(independent) || !columns.includes(dependent)) {
+		return null 
+	}
+	if ( (independentErr != "none" && !columns.includes(independentErr)) || (dependentErr != "none" && !columns.includes(dependentErr)) ) {
+		return null
+	}
+
+  const graphDiv = document.querySelector(".graph-wrapper");
+  
+  const dataObject = getData(independent, dependent, independentErr, dependentErr);
+  const points = getPointPlotObjects(dataObject);
+  let data = [points.active, points.inactive];
+
+  if (fitSelection === "none") {
+    graph(data, fitSelection);
+    reportRMSE(dataObject, fitSelection, [], false);
+    reportFit(fitSelection, [], []);
+    graphDiv.style.display = "flex";
+    return; //do we need to return anything, only did for resizing before...
+  }
+
+  const [fitToReport, coefs, covar, line] = fitPoints(dataObject, fitSelection);
+
+  if (line !== null) data.push(line); 
+  graph(data, fitSelection);
+  reportRMSE(dataObject, fitSelection, coefs, fitToReport);
+  graphDiv.style.display = "flex";
+
+  if (fitToReport) { 
+		reportFit(fitSelection, coefs, covar);
+	}
+	else {
+		addNotEnoughDataWarning(fitSelection);
+	}
+}
 
 function graph(data, fit) { 
   const graph = document.getElementById("graph");
   const config = {responsive: true}
 
   const layout = {
-    title: getGraphTitle(fit), //is this okay? need to test
+    title: getGraphTitle(fit),
     showlegend: false, 
     paper_bgcolor: BACKGROUND_COLOR,
     plot_bgcolor: BACKGROUND_COLOR, 
@@ -108,14 +151,14 @@ function fitPoints(dataObject, fitSelection) {
 	const xsToGraph = getXValuesForLine(dataObject);
 
 	if (fitSelection === "exactly proportional") {
-		const toGraph = solveForY(xsToGraph, fitSelection, []);
-		return [true, [], [], toGraph[0], toGraph[1]]; 
+		const line = solveForY(xsToGraph, fitSelection, []);
+		return [true, [], [], line]; 
 	}
 	else {
 		const [cleanXs, cleanYs] = cleanData(dataObject.activeX, dataObject.activeY, fitSelection);
 
 		if (cleanXs.length < 3) { //there's not enough data for a fit
-			return [false, [], [], [], []]; 
+			return [false, [], [], null]; 
 		}
 		else
 		{
@@ -123,20 +166,20 @@ function fitPoints(dataObject, fitSelection) {
 				//call nonlinear fitting routine
 				const [coefs, covar, graph] = nonlinearFit(cleanXs, cleanYs, fitSelection);
 				
-				if (graph) {
-					const toGraph = solveForY(xsToGraph, fitSelection, coefs);
-					return [true, coefs, covar, toGraph[0], toGraph[1]]; 
+				if (graph) { 
+					const line = solveForY(xsToGraph, fitSelection, coefs);
+					return [true, coefs, covar, line]; 
 				}
 				else //not enough data points for nonlinear fit
 				{
-					return [false, [], [], [], []];
+					return [false, [], [], null];
 				}
 			}
 			else { //one of the linear fits
 				const [coefs, covar] = SVDfitWithCovar(cleanXs, cleanYs, fitSelection); 
-				const toGraph = solveForY(xsToGraph, fitSelection, coefs);
+				const line = solveForY(xsToGraph, fitSelection, coefs);
 				
-				return [true, coefs, covar, toGraph[0], toGraph[1]]; 
+				return [true, coefs, covar, line]; 
 			}
 		}
 	}
