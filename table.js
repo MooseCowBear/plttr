@@ -97,3 +97,28 @@ function checkInput(input) {
 	}
 	return false;
 }
+
+/*
+need to add addcolumn function 
+- add column will need access to all the formula calculator/enterer functions
+*/
+
+function addRow() { 
+  const table = document.getElementById("table");
+  const row = table.insertRow(table.rows.length); 
+
+	for (let i = 0; i < table.rows[0].cells.length; i++) {
+    const cell = row.insertCell(i); 
+
+		if (i === 0) {
+			const chk = document.createElement("input");
+
+			chk.setAttribute("type", "checkbox");
+      cell.classList.add("exclude", "checkbox");
+			cell.appendChild(chk);
+		}
+   	else if (i > 0 && i < 5) {
+			cell.setAttribute("contenteditable", "true");
+   	}
+	}
+}
