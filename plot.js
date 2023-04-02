@@ -44,7 +44,7 @@ function getGraphTitle(fit) {
   return titles[fit];
 }
 
-function fitPoints(dataObject, fitSelection, xRange) {
+function fitPoints(dataObject, fitSelection) {
   /*
     here we take the data we got from the table, clean and fit it.
     we return a bool to indicate whether there is a fit to graph.
@@ -52,7 +52,7 @@ function fitPoints(dataObject, fitSelection, xRange) {
     coefficients and covariance matrix, which will be used to report the fit
   */
 
-	const xsToGraph = getXValuesForLine(xRange);
+	const xsToGraph = getXValuesForLine(dataObject);
 
 	if (fitSelection === "exactly proportional") {
 		const toGraph = solveForY(xsToGraph, fitSelection, []);
@@ -89,49 +89,23 @@ function fitPoints(dataObject, fitSelection, xRange) {
 	}
 }
 
-function getXValuesForLine(xRange) {
+function getXValuesForLine(dataObject) {
+  [min, max] = getXMinAndMax(dataObject);
   const xsToGraph = []; 
-	const incr = (xRange.max - xRange.min)/100; 
+	const incr = (max - min)/100; 
 
-	let curr = xRange.min;
-	while (curr <= xRange.max) {
+	let curr = min;
+	while (curr <= max) {
 		xsToGraph.push(curr);
 		curr += incr; 
 	}
   return xsToGraph
 }
 
-function getRange(values) {
-	let min = Math.min(...values); 
-	let max = Math.max(...values);
-
-	const sci = (max - min).toExponential();
-	const index = sci.indexOf("e"); 
-	const base = parseInt(sci.slice(0, index)); 
-
-	const power = parseInt(sci.slice(index + 1)); //getting the power of the difference
-	const padding = 10**power; //dont want data points to be right on the edge of the graph
-	
-	//rounding to the nearest "nice" number
-	if (power < 0) {
-		min = roundDecimal(min - padding, Math.abs(power));
-		max = roundDecimal(max + padding, Math.abs(power));
-	}
-	else {
-		min = roundInt(min - padding, power);
-		max = roundInt(max + padding, power);
-	}
-	return {"min": min, "max": max}
-}
-
-/* helper functions for getRange */
-function roundDecimal(num, places) {
-    const multiplier = Math.pow(10, places);
-    return Math.round(num * multiplier) / multiplier;
-}
-
-function roundInt(num, pow) {
-  return Math.round(num/10**pow)*10**pow;
+function getXMinAndMax(dataObject) {
+  const min = Math.min(Math.min(...dataObject.activeX), Math.min(...dataObject.inactiveX));
+  const max = Math.max(Math.max(...dataObject.activeX), Math.max(...dataObject.inactiveX));
+  return [min, max];
 }
 
 function cleanData(xs, ys, fit) {
