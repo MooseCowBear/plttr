@@ -1,7 +1,5 @@
 /* functions relating to adding/ evaluating formulas */
 
-
-//refactor! these are all 
 function resetModal() {
   /*
     function to clear out any changes made to the modal. 
@@ -48,4 +46,3 @@ function enableNonColButtons(){
 	  elem.classList.add("hov"); //UPDATE
   });
 }
-
