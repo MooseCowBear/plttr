@@ -278,7 +278,7 @@ input[type="checkbox"]:checked {
   height: 40rem;
   border: 2px solid var(--accent-200);
   border-radius: 0.5em;
-  display: flex;
+  display: flex; /* default will be none */
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
@@ -295,7 +295,7 @@ input[type="checkbox"]:checked {
 
 /* modal styling */
 .modal {
-  display: none; 
+  display: block; /*default is none, on is block */ 
   position: fixed; 
   z-index: 1; 
   left: 0;
@@ -407,7 +407,16 @@ input {
 }
 
 .invalid-formula {
+  visibility: hidden; /* looks better when the spacing is retained */
   color: salmon;
+}
+
+label.warning-on, #name.warning-on {
+  color: salmon;
+}
+
+#name.warning-on {
+  border: 2px solid salmon;
 }
 
 @media only screen and (max-width: 580px) {
