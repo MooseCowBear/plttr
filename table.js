@@ -4,12 +4,13 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
     points are divided into two categories: active and inactive. 
     only active points are used to perfom fit.
   */
+  const the_table = document.getElementById("table");
 	let independentColIndex, dependentColIndex; 
 	let independentErrIndex = "none";
   let dependentErrIndex = "none";
-
-	for (let i = 0; i < table.rows[0].cells.length; i ++) {
-		const cellText = table.rows[0].cells[i].innerText; 
+  
+	for (let i = 0; i < the_table.rows[0].cells.length; i ++) {
+		const cellText = the_table.rows[0].cells[i].innerText; 
 		if (cellText === independentCol) {
 			independentColIndex = i;
 		}
@@ -36,7 +37,7 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
 	const inactiveXerrs = [];
 	const inactiveYerrs = [];
 
-	for (let i = 1, row; row = table.rows[i]; i++) {
+	for (let i = 1, row; row = the_table.rows[i]; i++) {
 		const firstCol = row.cells[0]; 
 		const child = firstCol.getElementsByTagName("input"); 
 		const chk = child[0]; //the "exclude" checkbox
@@ -105,10 +106,10 @@ and for recalculating table when new data is entered
 */
 
 function addRow() { 
-  const table = document.getElementById("table");
-  const row = table.insertRow(table.rows.length); 
+  const the_table = document.getElementById("table"); 
+  const row = the_table.insertRow(the_table.rows.length); 
 
-	for (let i = 0; i < table.rows[0].cells.length; i++) {
+	for (let i = 0; i < the_table.rows[0].cells.length; i++) {
     const cell = row.insertCell(i); 
 
 		if (i === 0) {
@@ -169,9 +170,10 @@ function checkName(colName, cellIndex) {
 	if (strippedColName === "none") {
 		return false;
 	}
+  const the_table = document.getElementById("table");
 
-	for (let i = 1; i < table.rows[0].cells.length; i++) {
-		if (i !== cellIndex && table.rows[0].cells[i].innerText === strippedColName) {
+	for (let i = 1; i < the_table.rows[0].cells.length; i++) {
+		if (i !== cellIndex && the_table.rows[0].cells[i].innerText === strippedColName) {
 			return false;
 		}
 	}
@@ -179,8 +181,9 @@ function checkName(colName, cellIndex) {
 }
 
 function addFormulaColumn(newColName, formulaMap) {
-	const numRows = document.querySelector("table").rows.length; 
-	const currNumCols = document.getElementById('table').rows[0].cells.length;  
+  const the_table = document.getElementById("table");
+	const numRows = the_table.rows.length; 
+	const currNumCols = the_table.rows[0].cells.length;  
 
   for (const [i, row] of [...document.querySelectorAll("#table tr")].entries()) {
     const cell = document.createElement(i ? "td" : "th"); 
@@ -189,7 +192,7 @@ function addFormulaColumn(newColName, formulaMap) {
       cell.innerText = newColName;
     }
 		else {
-			const formula = formulaMap.get(currNumCols); //SHOULD THESE BE IN THIS FILE OR WITH THE FORMULA ENTERER STUFF or does the map belong in the main file?
+			const formula = formulaMap.get(currNumCols); 
 			const cellValue = compute(formula, i, numRows); 
 			cell.innerText = cellValue;
 		}
@@ -206,13 +209,14 @@ function updateTableValues(event, formulaMap) {
     else { 
       event.target.border = "1px solid salmon"; //CHECK COLOR - would a border or a change to the background color look better?
     }
-    const numRows = table.rows.length; 
+    const the_table = document.getElementById("table");
+    const numRows = the_table.rows.length; 
   
-    for (let i = 5; i < table.rows[0].cells.length; i ++) {
+    for (let i = 5; i < the_table.rows[0].cells.length; i ++) {
       for (let row = 1; row < numRows; row ++) {
         const formula = formulaMap.get(i); 
         const computedValue = compute(formula, row, numRows);
-        table.rows[row].cells[i].innerText = computedValue;
+        the_table.rows[row].cells[i].innerText = computedValue;
       }
     }
   }
