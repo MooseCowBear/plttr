@@ -30,3 +30,22 @@ function resetModal() {
 	enableNonColButtons();
 }
 
+function updateDisplay() {
+	const display = document.querySelector(".calculator-screen");
+	display.innerText = newFormula; //do we want to pass this?
+}
+
+function disableNonColButtons() {
+	document.querySelectorAll('button.calc-btn').forEach(elem => {
+    elem.disabled = true;
+	  elem.classList.remove("hov"); //THIS NEEDS TO BE UPDATED
+  });
+}
+
+function enableNonColButtons(){
+	document.querySelectorAll('button.calc-btn').forEach(elem => {
+    elem.disabled = false;
+	  elem.classList.add("hov"); //UPDATE
+  });
+}
+
