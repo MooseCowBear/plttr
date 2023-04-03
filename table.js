@@ -178,7 +178,7 @@ function checkName(colName, cellIndex) {
 	return true; 
 }
 
-function addFormulaColumn(newColName) {
+function addFormulaColumn(newColName, formulaMap) {
 	const numRows = document.querySelector("table").rows.length; 
 	const currNumCols = document.getElementById('table').rows[0].cells.length;  
 
@@ -197,14 +197,14 @@ function addFormulaColumn(newColName) {
 	}
 }
 
-function updateTableValues(event) {
+function updateTableValues(event, formulaMap) {
   if (event.target.classList.contains(".edit")) {
     const val = event.target.innerText; 
     if (checkInput(val)) { 
       event.target.border = "none"; //remove warning border if there was one
     }
     else { 
-      event.target.border = "1px solid salmon"; //CHECK COLOR
+      event.target.border = "1px solid salmon"; //CHECK COLOR - would a border or a change to the background color look better?
     }
     const numRows = table.rows.length; 
   
