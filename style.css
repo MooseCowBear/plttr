@@ -116,7 +116,7 @@ main {
   gap: 2rem;
 }
 
-button:not(.button__dropdown):hover, button:not(.button__dropdown):focus {
+button.active:hover, button.active:focus {
   border: 2px solid var(--accent-200);
   cursor: pointer;
 }
@@ -386,7 +386,7 @@ input {
   gap: 0.5em;
 }
 
-.calc-btn {
+.calculator__button {
   border-radius: 0.5em;
   font-size: 1em;
   padding: 1em 0;
@@ -398,7 +398,7 @@ input {
   grid-column-end: 5; 
 }
 
-.col-btn {
+.calculator__button-column {
   background-color: var(--table-100);
   border-radius: 0.5em;
   font-size: 1rem;
