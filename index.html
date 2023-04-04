@@ -21,8 +21,8 @@
       <i class="fa-sharp fa-regular fa-circle"></i>
     </div>
     <div class="header__right">
-      <button>add row</button>
-      <button>add column</button>
+      <button class="active">add row</button>
+      <button class="active">add column</button>
     </div>
   </header>
   <main>
@@ -179,56 +179,56 @@
         </div> <!--end formula-calc-header div-->
     
         <div id="col-names" class="columns"> <!--fourth elem in grid, position 1, 1-2-->
-          <button id="x-btn" class="col-btn hov">x</button>
-          <button id="y-btn" class="col-btn hov">y</button>
-          <button id="x-err-btn" class="col-btn hov">&plusmn; x</button>
-          <button id="y-err-btn" class="col-btn hov">&plusmn; y</button>
+          <button id="x-btn" class="calculator__button-column active">x</button>
+          <button id="y-btn" class="calculator__button-column active">y</button>
+          <button id="x-err-btn" class="calculator__button-column active">&plusmn; x</button>
+          <button id="y-err-btn" class="calculator__button-column active">&plusmn; y</button>
         </div> <!--end col-names-->
           
         <div class="calculator__keys"> <!--fifth elem in grid, position 2, 0-->
     
-          <button id="del" class = "calc-btn hov"> del </button>
-          <button id="left-paren" class = "calc-btn hov"> ( </button>
-          <button id="right-paren" class = "calc-btn hov"> ) </button>
-          <button id="pow" class = "calc-btn hov"> ^ </button> 
+          <button id="del" class="calculator__button active"> del </button>
+          <button id="left-paren" class="calculator__button active"> ( </button>
+          <button id="right-paren" class="calculator__button active"> ) </button>
+          <button id="pow" class="calculator__button active> ^ </button> 
       
-          <button id="seven" class = "calc-btn hov"> 7 </button>
-          <button id="eight" class = "calc-btn hov"> 8 </button>
-          <button id="nine" class = "calc-btn hov"> 9 </button>
-          <button id="divide" class = "calc-btn hov"> / </button>
+          <button id="seven" class="calculator__button active"> 7 </button>
+          <button id="eight" class="calculator__button active"> 8 </button>
+          <button id="nine" class="calculator__button active"> 9 </button>
+          <button id="divide" class="calculator__button active"> / </button>
           
-          <button id="four" class = "calc-btn hov"> 4 </button>
-          <button id="five" class = "calc-btn hov"> 5 </button>
-          <button id="six" class = "calc-btn hov"> 6 </button>
-          <button id="multiply" class = "calc-btn hov"> x </button>
+          <button id="four" class="calculator__button active"> 4 </button>
+          <button id="five" class="calculator__button active"> 5 </button>
+          <button id="six" class="calculator__button active"> 6 </button>
+          <button id="multiply" class="calculator__button active"> x </button>
           
-          <button id="one" class = "calc-btn hov"> 1 </button>
-          <button id="two" class = "calc-btn hov"> 2 </button>
-          <button id="three" class = "calc-btn hov"> 3 </button>
-          <button id="subtract" class = "calc-btn hov"> - </button>
+          <button id="one" class="calculator__button active"> 1 </button>
+          <button id="two" class="calculator__button active"> 2 </button>
+          <button id="three" class="calculator__button active"> 3 </button>
+          <button id="subtract" class="calculator__button active"> - </button>
         
-          <button id="zero" class = "calc-btn hov"> 0 </button>
-          <button id="point" class = "calc-btn hov"> . </button>
-          <button id="plusminus" class = "calc-btn hov"> &plusmn; </button>
-          <button id="add" class = "calc-btn hov"> + </button>
+          <button id="zero" class="calculator__button active"> 0 </button>
+          <button id="point" class="calculator__button active"> . </button>
+          <button id="plusminus" class="calculator__button active"> &plusmn; </button>
+          <button id="add" class="calculator__button active"> + </button>
       
-          <button id="pi" class = "calc-btn hov"> &pi; </button>
-          <button id="e" class = "calc-btn hov"> e </button>
-          <button id="abs" class = "calc-btn hov"> abs </button>
-          <button id="slope" class = "calc-btn hov"> rate of change </button>	
+          <button id="pi" class="calculator__button active"> &pi; </button>
+          <button id="e" class="calculator__button active"> e </button>
+          <button id="abs" class="calculator__button active"> abs </button>
+          <button id="slope" class="calculator__button active"> rate of change </button>	
           
-          <button id="sin" class = "calc-btn hov"> sin </button>
-          <button id="cos" class = "calc-btn hov"> cos </button>
-          <button id="tan" class = "calc-btn hov"> tan </button>
-          <button id="sq-root" class = "calc-btn hov"> &#8730; </button> <!--update JS to reflect name change-->
+          <button id="sin" class="calculator__button active"> sin </button>
+          <button id="cos" class="calculator__button active"> cos </button>
+          <button id="tan" class="calculator__button active"> tan </button>
+          <button id="sq-root" class="calculator__button active"> &#8730; </button> <!--update JS to reflect name change-->
           
-          <button id="nat-log" class = "calc-btn hov"> ln </button> <!--update JS to reflect name change-->
-          <button id="log" class = "calc-btn hov"> log10 </button>
-          <button id="log2" class = "calc-btn hov"> log2 </button>
-          <button id="cancel" class = "calc-btn hov"> cancel </button>
+          <button id="nat-log" class="calculator__button active"> ln </button> <!--update JS to reflect name change-->
+          <button id="log" class="calculator__button active"> log10 </button>
+          <button id="log2" class="calculator__button active"> log2 </button>
+          <button id="cancel" class="calculator__button active"> cancel </button>
       
-          <button id="clear" class = "calc-btn hov"> clear </button>
-          <button id="submit" class = "calc-btn hov"> submit </button>
+          <button id="clear" class="calculator__button active"> clear </button>
+          <button id="submit" class="calculator__button active"> submit </button>
         </div> <!--end calculator keys-->
       </div> <!--end calc contains-->
     </div> <!--end modal/formModal-->
