@@ -29,20 +29,21 @@ function resetModal() {
 }
 
 function updateDisplay() {
-	const display = document.querySelector(".calculator-screen");
+	const display = document.querySelector(".calculator__screen");
 	display.innerText = newFormula; //do we want to pass this?
 }
 
 function disableNonColButtons() {
-	document.querySelectorAll('button.calc-btn').forEach(elem => {
+	document.querySelectorAll('calculator__button').forEach(elem => {
     elem.disabled = true;
-	  elem.classList.remove("hov"); //THIS NEEDS TO BE UPDATED
+	  elem.classList.remove("active"); 
   });
 }
 
 function enableNonColButtons(){
-	document.querySelectorAll('button.calc-btn').forEach(elem => {
+	document.querySelectorAll('calculator__button').forEach(elem => {
     elem.disabled = false;
-	  elem.classList.add("hov"); //UPDATE
+	  elem.classList.add("active"); 
   });
 }
+
