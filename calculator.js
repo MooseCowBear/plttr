@@ -116,4 +116,7 @@ function addSlope(formulaState) {
 
 	disableNonColButtons();
 }
-	
+
+function degreesToRadians(degrees) {
+  	return degrees * (Math.PI / 180);
+}
