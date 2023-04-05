@@ -227,7 +227,7 @@ function deleteFromFormula(formulaState) {
 	}
 }
 
-function updateFormula(event, formulaState) {
+function updateFormula(event, formulaState, formulaMap) { 
 	if (event.target.classList.contains("digit")) {
 		addDigit(event.target.innerText, formulaState);
 		return;
@@ -264,7 +264,7 @@ function updateFormula(event, formulaState) {
 			addSlope(formulaState)
 			break;
 		default: 
-			submitFormula(formulaState, formulaMap);
+			submitFormula(formulaState, formulaMap); 
 	}
 }
 
@@ -272,21 +272,15 @@ function addColumnToFormula(columnName, formulaState) {
 	const theTable = document.getElementById("table");
 	const row = theTable.rows[0]; 
 	
-	//CAN THIS BE CLEANED UP?
-	let colFound = false;
 	for (let i = 0, col; col = row.cells[i]; i++) {
 		const header = col.innerText;
 		if (header === columnName) {
 			formulaState.infix.push("col" + i); //whoever's header matches the innertext of the button pushed
-			colFound = true;
+			break;
 		}
-	}
-	if (!colFound) {
-		for (let i = 0, col; col = row.cells[i]; i++) {
-			const header = col.innerText;
-			if (header.includes(columnName.slice(1, columnName.length - 1))) {
-				formulaState.infix.push("col" + i);
-			}
+		else if (header.includes(columnName.slice(1, columnName.length - 1))) {
+			formulaState.infix.push("col" + i); //this is for x and y errors
+			break;
 		}
 	}
 
