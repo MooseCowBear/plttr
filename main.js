@@ -40,16 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTableValues(event, formulas);
   });
 
-  //event listeners for buttons pressed in calculator
+  //event listeners for anything clicked in calculator
   const calculator = document.querySelector(".calculator");
   calculator.addEventListener("click", (event) => {
     if (event.target.nodeName === "BUTTON") {
-      
+      updateFormula(event, formulaState, formulas);
     }
-    //close span?
+    //close  x was clicked
+    else if (event.target.id === "close") {
+      const formulaModal = document.getElementById("formula-modal");
+      resetModal();
+  	  formulaModal.style.display = "none";
+    }
   });
 
-  //need closing the calculator event listeners
+  //event listener to close modal if click outside the calculator
 
   //graphing event listeners
 
