@@ -158,7 +158,7 @@ function deleteFromFormula(formulaState) {
 		if (formulaState.infix.length === 0) {
 			return;
 		}
-		else if (typeof formulaState.infix[infix.length -1] === "string" && formulaState.infix[infix.length - 1].startsWith("col")) {
+		else if (typeof formulaState.infix[formulaState.infix.length -1] === "string" && formulaState.infix[formulaState.infix.length - 1].startsWith("col")) {
 			const col = formulaState.infix.pop(); //remove the last elem of infix arr
 			let index = col.slice(3); //remove "col" from front
 			index = parseInt(index); //convert from string to int
@@ -169,7 +169,7 @@ function deleteFromFormula(formulaState) {
 			updateDisplay();
 		}
 		else if (formulaState.infix[formulaState.infix.length - 1] === "(") {
-			if (util.functions.includes(infix[infix.length - 2])) {
+			if (util.functions.includes(formulaState.infix[formulaState.infix.length - 2])) {
 				formulaState.infix.pop(); 
 				const endingFcn = formulaState.infix.pop(); //2nd to last elem
 				if (endingFcn == "sqRoot") {
@@ -214,7 +214,7 @@ function deleteFromFormula(formulaState) {
 				updateDisplay(formulaState);
 			}
 		}
-		else if (infix[infix.length - 1] === Math.PI) {
+		else if (formulaState.infix[formulaState.infix.length - 1] === Math.PI) {
 			formulaState.infix.pop(); 
 			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 4); //"&pi;" has 4 chars
 			updateDisplay(formulaState);
@@ -377,4 +377,321 @@ function submitFormula(formulaState, formulaMap) {
 function addToFormulaMap(postfix, formulaMap) {
 	const currNumCols = document.getElementById('table').rows[0].cells.length; 
 	formulaMap.set(currNumCols, postfix); 
+}
+
+//still need postfix, and compute
+
+function compute(postfix, rowIndex, numRows){ 
+	/*
+		function to compute the value of a table cell from the formula given as
+		a postfix array 
+	*/
+	const stack = []; 
+	
+	for(let i = 0; i < postfix.length; i ++) {
+		if (!isNaN(postfix[i])) {
+			stack.push(postfix[i]); 
+		}
+		else if (isColumn(postfix[i])) {
+			stack.push(postfix[i]); 
+		}
+
+		else if (postfix[i] === "+") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			} 
+
+			let two = convertColumn(stack.pop(), rowIndex);
+			if (two === "" || two === "!") {
+				return two; 
+			}
+			
+			stack.push(one + two);
+		}
+		else if (postfix[i] === "-") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+
+			let two = convertColumn(stack.pop(), rowIndex);
+			if (two === "" || two === "!") {
+				return two; 
+			}
+
+			stack.push(two - one);
+		}
+		else if (postfix[i] === "/") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+
+			let two = convertColumn(stack.pop(), rowIndex);
+			if (two === "" || two === "!") {
+				return two; 
+			}
+
+			if (!isFinite(two / one)) {
+				return "!"; 
+			}
+			stack.push(two / one);
+		}
+		else if (postfix[i] === "*") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+		
+			let two = convertColumn(stack.pop(), rowIndex);
+			if (two === "" || two === "!") {
+				return two; 
+			}
+			stack.push(two * one);
+		}
+		else if (postfix[i] === "^") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+		
+			let two = convertColumn(stack.pop(), rowIndex);
+			if (two === "" || two === "!") {
+				return two; 
+			}
+			stack.push(two ** one);
+		}
+		else if (postfix[i] === "log10") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+
+			const val = Math.log10(one);
+			if (!isFinite(val)) {
+				return "!";
+			}
+			stack.push(val);
+		}
+		else if (postfix[i] === "ln") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+		
+			const val = Math.log(one);
+			if (!isFinite(val)) {
+				return "!";
+			}
+			stack.push(val);
+		}
+		else if (postfix[i] === "log2") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+		
+			const val = Math.log2(one);
+			if (!isFinite(val)) {
+				return "!";
+			}
+			stack.push(val);
+		}
+		else if (postfix[i] === "negate") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+			stack.push(-one);
+		}
+		else if (postfix[i] === "abs") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+			stack.push(Math.abs(one));
+		}
+		else if (postfix[i] === "sqRoot") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+			if (!isFinite(one**0.5)) {
+				return "!"; 
+			}
+			stack.push(one**0.5);
+		}
+		else if (postfix[i] === "sin") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+			stack.push(Math.sin(degreesToRadians(one)));
+		}
+		else if (postfix[i] === "cos") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+			stack.push(Math.cos(degreesToRadians(one)));
+		}
+		else if (postfix[i] === "tan") {
+			let one = convertColumn(stack.pop(), rowIndex);
+			if (one === "" || one === "!") {
+				return one; 
+			}
+			stack.push(Math.tan(degreesToRadians(one)));
+		}
+		else { 
+			const X = stack.pop(); 
+			const Y = stack.pop();
+			
+			if (rowIndex > 1 && rowIndex < numRows - 1) {
+				const xPlusVal = convertColumn(X, rowIndex + 1);
+				if (xPlusVal === "" || xPlusVal === "!") {
+					return xPlusVal
+				}
+				const xMinusVal = convertColumn(X, rowIndex - 1);
+				if (xMinusVal === "" || xMinusVal === "!") {
+					return xMinusVal
+				}
+				const yPlusVal = convertColumn(Y, rowIndex + 1);
+				if (yPlusVal === "" || yPlusVal === "!") {
+					return yPlusVal
+				}
+				const yMinusVal = convertColumn(Y, rowIndex - 1);
+				if (yMinusVal === "" || yMinusVal === "!") {
+					return yMinusVal
+				}
+
+				const val = (yPlusVal - yMinusVal)/(xPlusVal - xMinusVal);
+				if (!isFinite(val)) { 
+					return "!";
+				}
+				stack.push(val);
+			}
+			else { //first row and last row won't have slope
+				return ""; 
+			}
+		}
+	}
+	let lastVal = stack.pop();
+
+	if (isColumn(lastVal)) {
+		lastVal = convertColumn(lastVal, rowIndex);
+	}
+	return roundToSignificantDigits(lastVal, 5); 
+}
+
+function convertColumn(poppedElem, rowIndex) {
+	const theTable = document.getElementById("table");
+	if (typeof poppedElem === 'string') {
+		const colIndex = parseInt(poppedElem.slice(3, poppedElem.length)); 
+		const cell = theTable.rows[rowIndex].cells[colIndex];
+
+		const input = cell.innerText; 
+		
+		if (input === "") {
+			return "";  
+		}
+		return checkInput(input) ? parseFloat(input) : "!";
+	}
+	return poppedElem;
+}
+
+function makePostfix(formulaState){ 
+	/*
+		shunting yard algorithm with validation.
+	*/
+	const {operators, functions, precedence, association} = getEvaluationUtilities();
+
+	const postfix = []; 
+	const operatorStack = []; 
+	let expectingOperator = false; 
+
+	if (operators.includes(formulaState.infix[formulaState.infix.length - 1])) {
+		return [false, postfix];
+	}
+	for (let i = 0; i < formulaState.infix.length; i ++) {
+		if (!isNaN(formulaState.infix[i])) { //do we have a number?
+			if (expectingOperator) {
+				return [false, postfix];
+			}
+			const value = parseFloat(formulaState.infix[i]); 
+			postfix.push(value); 
+			expectingOperator = true; 
+		}
+		else {
+			if (isColumn(formulaState.infix[i])) {
+				if (expectingOperator) {
+					return [false, postfix];
+				}
+				if ((operatorStack.length >= 2 && operatorStack[operatorStack.length - 2] !== "slope") || operatorStack.length < 2) {
+					expectingOperator = true; 
+				}
+				postfix.push(formulaState.infix[i]);
+			}
+			else if (functions.includes(formulaState.infix[i])) {
+				if (expectingOperator) {
+					return [false, postfix];
+				}
+				operatorStack.push(formulaState.infix[i]); 
+				expectingOperator = false;  
+			}
+			else if (formulaState.infix[i] === "(") {
+				if (expectingOperator) {	
+					return [false, postfix];
+				}
+				operatorStack.push(formulaState.infix[i]);
+				expectingOperator = false; 
+			}
+			else if (operators.includes(formulaState.infix[i])) {
+				if (!expectingOperator) {
+					return [false, postfix];
+				}
+				while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(" && (precedence.get(operatorStack[operatorStack.length - 1]) > precedence.get(formulaState.infix[i]) || functions.includes(operatorStack[operatorStack.length - 1]) || (precedence.get(operatorStack[operatorStack.length - 1]) === precedence.get(formulaState.infix[i]) && association.get(formulaState.infix[i]) === "left"))) {
+					const op = operatorStack.pop();
+					postfix.push(op);
+				}
+				operatorStack.push(formulaState.infix[i]);
+				expectingOperator = false; 
+			}
+			else if (formulaState.infix[i] === ")") {
+				if (!expectingOperator) {
+					return [false, postfix];
+				}
+				while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(") {
+					const op = operatorStack.pop();
+					postfix.push(op);
+				}
+				if (operatorStack.length === 0) {
+					return [false, postfix];
+				}
+				operatorStack.pop(); 
+			}
+			else {
+				return [false, postfix];
+			}
+		}
+	}
+	while (operatorStack.length > 0) {
+		const op = operatorStack.pop();
+		if (op === "(") {
+			return [false, postfix];
+		}
+		postfix.push(op);
+	}
+
+	if (postfix.length === 0) { 
+		return [false, postfix]; 
+	}
+	return [true, postfix];
+}
+
+function isColumn(elem) { 
+	if(elem !== "(" && elem !== ")" && !operators.includes(elem) && !functions.includes(elem)) {
+		return true;
+	}
+	return false;
 }
