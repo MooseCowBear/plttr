@@ -1,5 +1,31 @@
 /* functions relating to adding/ evaluating formulas */
 
+function openCalculator() {
+	const formulaModal = document.getElementById("formula-modal");
+	formulaModal.style.display = "block";
+}
+
+function getEvaluationUtilities() {
+	return {
+		operators: ["+", "-", "/", "*", "^"], 
+		functions: ["log10", "ln", "negate", "sqRoot", "sin", "cos", "tan", "slope", "log2", "abs"],
+		precedence: {
+			"+": 1,
+			"-": 1,
+			"/": 2,
+			"*": 2,
+			"^": 3
+		},
+		association: {
+			"+": "left",
+			"-": "left",
+			"/": "left",
+			"*": "left",
+			"^": "right"
+		}
+	};
+}
+
 function resetModal(formulaState) {
   /*
     function to clear out any changes made to the modal. 
@@ -18,19 +44,19 @@ function resetModal(formulaState) {
   const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
 
-	formulaState.newFormula = ""; //stays
+	formulaState.newFormula = ""; 
 	formulaState.infix.length = 0; 
 	formulaState.prevNum = false;
 	formulaState.number = "";
 	formulaState.ROC = 0;
 
-	updateDisplay();
+	updateDisplay(formulaState);
 	enableNonColButtons();
 }
 
-function updateDisplay() {
+function updateDisplay(formulaState) {
 	const display = document.querySelector(".calculator__screen");
-	display.innerText = newFormula; //do we want to pass this?
+	display.innerText = formulaState.newFormula; 
 }
 
 function disableNonColButtons() {
@@ -46,41 +72,37 @@ function enableNonColButtons(){
 	  elem.classList.add("active"); 
   });
 }
- 
 
-function updateNumber() {
+function updateNumber(formulaState) {
 	/* 
-		called when a non-digit calculator is pushed.
+		called when a non-digit calculator is pushed. 
+		need to wait until we know the number is finished before we add it to the 
+		infix array
 	*/
-	if (prevNum) { 
-		infix.push(number);
-		prevNum = false;
-		number = ""; 
+	if (formulaState.prevNum) { 
+		formulaState.infix.push(number);
+		formulaState.prevNum = false;
+		formulaState.number = ""; 
 	}
 }
 
 function getColNameFromIndex(index) {
-  const the_table = document.getElementById("table");
-	return the_table.rows[0].cells[index].innerText; 
+  const theTable = document.getElementById("table");
+	return theTable.rows[0].cells[index].innerText; 
 }
-
-/* reworking all of the functions used for clicking on a calculator button.
-	will add one click event listener to the calculator */
 	
-function cancelFormula() {
+function cancelFormula(formulaState) {
 	const formulaModal = document.getElementById("formulaModal");
-	resetModal();
+	resetModal(formulaState);
 	formulaModal.style.display = "none";
 }
-
-//everything that is not a digit or roc, updates same...
 
 function addNonDigit(char, formulaState) {
 	/* this includes e and pi, but not functions */
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += char;
-	updateDisplay();
-	updateNumber();
+	updateDisplay(formulaState);
+	updateNumber(formulaState);
 	formulaState.infix.push(char);
 }
 
@@ -88,7 +110,7 @@ function addDigit(digit, formulaState) {
 	/* decimal counts as digit for our purposes */
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += digit;	
-	updateDisplay();
+	updateDisplay(formulaState);
 	formulaState.prevNum = true;
 	formulaState.number += digit;
 }
@@ -97,8 +119,8 @@ function addFunction(funcName, charRepresentation, formulaState, withParen = fal
 	/* every function except for negation adds left parenthesis */
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += charRepresentation; 
-	updateDisplay();
-	updateNumber();
+	updateDisplay(formulaState);
+	updateNumber(formulaState);
 	formulaState.infix.push(funcName);
 	if (withParen) {
 		formulaState.infix.push("(");
@@ -108,8 +130,8 @@ function addFunction(funcName, charRepresentation, formulaState, withParen = fal
 function addSlope(formulaState) {
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += "Rate of Change( , )";  
-	updateDisplay();
-	updateNumber();
+	updateDisplay(formulaState);
+	updateNumber(formulaState);
 	formulaState.infix.push("slope"); 
 	formulaState.infix.push("(");
 	formulaState.ROC = 1;
