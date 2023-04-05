@@ -67,7 +67,6 @@ function validColumnSelection(independent, dependent, independentErr, dependentE
 }
 
 function graph(data, fit) { 
-  const graph = document.getElementById("graph");
   const config = {responsive: true}
 
   const layout = {
@@ -82,7 +81,7 @@ function graph(data, fit) {
     } 
   };
 
-  Plotly.newPlot("graph", data, layout, config);
+  Plotly.newPlot("graph", data, layout, config); //takes id as first parameter 
 }
 
 function getPointPlotObjects(dataObject) {
