@@ -273,6 +273,21 @@ input[type="checkbox"]:checked {
   border-radius: 0.5em;
 }
 
+.graph-wrapper__outer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.graph__buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
 .graph-wrapper {
   width: 100%;
   height: 40rem;
@@ -295,7 +310,7 @@ input[type="checkbox"]:checked {
 
 /* modal styling */
 .modal {
-  display: block; /*default is none, on is block */ 
+  display: none; /*default is none, on is block */ 
   position: fixed; 
   z-index: 1; 
   left: 0;
@@ -391,11 +406,6 @@ input {
   font-size: 1em;
   padding: 1em 0;
   max-width: 100%;
-}
-
-#submit{
-  grid-column-start: 2;
-  grid-column-end: 5; 
 }
 
 .calculator__button-column {
