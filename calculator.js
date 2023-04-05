@@ -227,3 +227,154 @@ function deleteFromFormula(formulaState) {
 	}
 }
 
+function updateFormula(event, formulaState) {
+	if (event.target.classList.contains("digit")) {
+		addDigit(event.target.innerText, formulaState);
+		return;
+	}
+	else if (event.target.classList.contains("non-digit")) {
+		addNonDigit(event.target.innerText, formulaState);
+		return;
+	}
+	else if (event.target.classList.contains("func")) {
+		if (event.target.id === "negate") {
+			addFunction("negate", " -", formulaState);
+		}
+		else {
+			addFunction(event.target.id, event.target.innerText, formulaState, true);
+		}
+		return;
+	}
+	else if (event.target.classList.contains("calculator__button-column")) {
+		columnName = event.target.innerText; 
+		addColumnToFormula(columnName);
+	}
+
+	switch(event.target.id) {
+		case "del":
+			deleteFromFormula(formulaState);
+			break;
+		case "cancel":
+			cancelFormula(formulaState);
+			break;
+		case "clear":
+			resetModal();
+			break;
+		case "slope":
+			addSlope(formulaState)
+			break;
+		default: 
+			submitFormula(formulaState, formulaMap);
+	}
+}
+
+function addColumnToFormula(columnName, formulaState) { 
+	const theTable = document.getElementById("table");
+	const row = theTable.rows[0]; 
+	
+	//CAN THIS BE CLEANED UP?
+	let colFound = false;
+	for (let i = 0, col; col = row.cells[i]; i++) {
+		const header = col.innerText;
+		if (header === columnName) {
+			formulaState.infix.push("col" + i); //whoever's header matches the innertext of the button pushed
+			colFound = true;
+		}
+	}
+	if (!colFound) {
+		for (let i = 0, col; col = row.cells[i]; i++) {
+			const header = col.innerText;
+			if (header.includes(columnName.slice(1, columnName.length - 1))) {
+				formulaState.infix.push("col" + i);
+			}
+		}
+	}
+
+	if (formulaState.ROC === 1) {
+		formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 4);
+		formulaState.newFormula += columnName;
+		formulaState.newFormula += ", )";
+		formulaState.ROC = 2;
+	}
+	else if (formulaState.ROC === 2) {
+		formulaState.newFormula = formulaState.newFormula.slice(0, newFormula.length - 2);
+		formulaState.newFormula += columnName;
+		formulaState.newFormula += ")";
+		formulaState.ROC = 0;
+		formulaState.infix.push(")");
+
+		//reactivate other, non-col buttons here...
+		enableNonColButtons(); 
+	}
+	else {
+		formulaState.newFormula += columnName; 
+	}
+	updateDisplay(formulaState);
+}
+
+function submitFormula(formulaState, formulaMap) { 
+	/*
+		when a new formula is submitted, we need to check 1. that it is a valid formula,
+		2. that user has entered a name for the column and it is unique.
+		we also need to update the dom to reflect the new column.
+	*/
+	const formModal = document.getElementById("formula-modal");
+	updateNumber(formulaState);
+
+	const nameForm = document.getElementById("name");
+	const nameLabel = document.getElementById("name-input__label");
+
+	if (nameForm.value === "") {
+		nameLabel.classList.add("warning-on");
+		nameForm.classList.add("warning-on"); 
+	}
+
+	else { 
+		const validName = checkName(newColName, 0); 
+
+		if (validName) {
+			nameLabel.innerText = "add a name:"; 
+			nameLabel.classList.remove("warning-on"); 
+			nameForm.classList.remove("warning-on");
+
+			const [valid, postfix] = makePostfix(); 
+
+			if (valid) {
+				addToFormulaMap(postfix, formulaMap);
+
+				addFormulaColumn(newColName); 
+
+				extendVariableDropdowns(newColName);
+
+				formulaState.newFormula = "";
+				formulaState.infix.length = 0;
+				
+				const newColumnButton = document.createElement('button'); 
+				newColumnButton.classList.add("calculator__button-column", "active"); 
+				newColumnButton.innerText = newColName;
+		
+				const columns = document.getElementById("columns");
+				columns.appendChild(newColumnButton); 
+
+				nameForm.value = ""; 
+				updateDisplay(formulaState); 
+				formModal.style.display = "none"; 
+			}
+			else { 
+				const warning = document.getElementById("invalid-formula");
+				warning.style.visibility = "visible"; 
+				updateDisplay(formulaState);
+			}
+		} 
+		else {
+			nameLabel.innerText = "add a distinct name:"; 
+			nameLabel.classList.add("warning-on");
+			nameForm.classList.add("warning-on");
+		}
+	}
+}
+
+function addToFormulaMap(postfix, formulaMap) {
+	const currNumCols = document.getElementById('table').rows[0].cells.length; 
+	formulaMap.set(currNumCols, postfix); 
+}
