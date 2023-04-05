@@ -4,13 +4,13 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
     points are divided into two categories: active and inactive. 
     only active points are used to perfom fit.
   */
-  const the_table = document.getElementById("table");
+  const theTable = document.getElementById("table");
 	let independentColIndex, dependentColIndex; 
 	let independentErrIndex = "none";
   let dependentErrIndex = "none";
   
-	for (let i = 0; i < the_table.rows[0].cells.length; i ++) {
-		const cellText = the_table.rows[0].cells[i].innerText; 
+	for (let i = 0; i < theTable.rows[0].cells.length; i ++) {
+		const cellText = theTable.rows[0].cells[i].innerText; 
 		if (cellText === independentCol) {
 			independentColIndex = i;
 		}
@@ -37,7 +37,7 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
 	const inactiveXerrs = [];
 	const inactiveYerrs = [];
 
-	for (let i = 1, row; row = the_table.rows[i]; i++) {
+	for (let i = 1, row; row = theTable.rows[i]; i++) {
 		const firstCol = row.cells[0]; 
 		const child = firstCol.getElementsByTagName("input"); 
 		const chk = child[0]; //the "exclude" checkbox
@@ -106,10 +106,10 @@ and for recalculating table when new data is entered
 */
 
 function addRow() { 
-  const the_table = document.getElementById("table"); 
-  const row = the_table.insertRow(the_table.rows.length); 
+  const theTable = document.getElementById("table"); 
+  const row = theTable.insertRow(theTable.rows.length); 
 
-	for (let i = 0; i < the_table.rows[0].cells.length; i++) {
+	for (let i = 0; i < theTable.rows[0].cells.length; i++) {
     const cell = row.insertCell(i); 
 
 		if (i === 0) {
@@ -126,7 +126,7 @@ function addRow() {
 	}
 }
 
-function updateColumnName(event, x = true) {
+function updateColumnName(x = true) {
   /*
     when user updates x, y column names, need to populate throughout.
     if they attempt to change to a name that is already taken or to none, 
@@ -170,10 +170,10 @@ function checkName(colName, cellIndex) {
 	if (strippedColName === "none") {
 		return false;
 	}
-  const the_table = document.getElementById("table");
+  const theTable = document.getElementById("table");
 
-	for (let i = 1; i < the_table.rows[0].cells.length; i++) {
-		if (i !== cellIndex && the_table.rows[0].cells[i].innerText === strippedColName) {
+	for (let i = 1; i < theTable.rows[0].cells.length; i++) {
+		if (i !== cellIndex && theTable.rows[0].cells[i].innerText === strippedColName) {
 			return false;
 		}
 	}
@@ -181,9 +181,9 @@ function checkName(colName, cellIndex) {
 }
 
 function addFormulaColumn(newColName, formulaMap) {
-  const the_table = document.getElementById("table");
-	const numRows = the_table.rows.length; 
-	const currNumCols = the_table.rows[0].cells.length;  
+  const theTable = document.getElementById("table");
+	const numRows = theTable.rows.length; 
+	const currNumCols = theTable.rows[0].cells.length;  
 
   for (const [i, row] of [...document.querySelectorAll("#table tr")].entries()) {
     const cell = document.createElement(i ? "td" : "th"); 
@@ -209,14 +209,14 @@ function updateTableValues(event, formulaMap) {
     else { 
       event.target.border = "1px solid salmon"; //CHECK COLOR - would a border or a change to the background color look better?
     }
-    const the_table = document.getElementById("table");
-    const numRows = the_table.rows.length; 
+    const theTable = document.getElementById("table");
+    const numRows = theTable.rows.length; 
   
-    for (let i = 5; i < the_table.rows[0].cells.length; i ++) {
+    for (let i = 5; i < theTable.rows[0].cells.length; i ++) {
       for (let row = 1; row < numRows; row ++) {
         const formula = formulaMap.get(i); 
         const computedValue = compute(formula, row, numRows);
-        the_table.rows[row].cells[i].innerText = computedValue;
+        theTable.rows[row].cells[i].innerText = computedValue;
       }
     }
   }
