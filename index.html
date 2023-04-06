@@ -13,6 +13,7 @@
   <script src="./fits.js" defer></script>
   <script src="./calculator.js" defer></script>
   <script src="./table.js" defer></script>
+  <script src="./dropdown.js" defer></script>
   <script src="./plot.js" defer></script>
   <script src="./main.js" defer></script>
   <title>plttr 2.0</title>
@@ -95,43 +96,43 @@
     <div class="selectors">
       <div class="selectors__option">
         <div class="selectors__option-name">x-axis</div>
-        <div class="dropdown-content" id="x-dropdown">
+        <div class="dropdown-content" id="x-axis">
           <button class="button__dropdown dropdown-option x-dropdown">x</button>
-          <button class="button__dropdown dropdown-option x-dropdown" href="#">y</a></button>
-          <button class="button__dropdown dropdown-option x-dropdown" href="#">&plusmn; x</button>
-          <button class="button__dropdown dropdown-option x-dropdown" href="#">&plusmn; y</button>
+          <button class="button__dropdown dropdown-option x-dropdown">y</a></button>
+          <button class="button__dropdown dropdown-option x-dropdown">&plusmn; x</button>
+          <button class="button__dropdown dropdown-option x-dropdown">&plusmn; y</button>
         </div>
       </div>
       <div class="selectors__option">
         <div class="selectors__option-name">x-axis error</div>
-        <div class="dropdown-content" id="x-err-dropdown">
+        <div class="dropdown-content" id="x-axis-err">
           <button class="button__dropdown dropdown-option x-err-dropdown">x</button>
-          <button class="button__dropdown dropdown-option x-err-dropdown" href="#">y</a></button>
-          <button class="button__dropdown dropdown-option x-err-dropdown" href="#">&plusmn; x</button>
-          <button class="button__dropdown dropdown-option x-err-dropdown" href="#">&plusmn; y</button>
+          <button class="button__dropdown dropdown-option x-err-dropdown">y</a></button>
+          <button class="button__dropdown dropdown-option x-err-dropdown">&plusmn; x</button>
+          <button class="button__dropdown dropdown-option x-err-dropdown">&plusmn; y</button>
         </div>
       </div>
       <div class="selectors__option">
         <div class="selectors__option-name">y-axis</div>
-        <div class="dropdown-content" id="y-dropdown">
+        <div class="dropdown-content" id="y-axis">
           <button class="button__dropdown dropdown-option y-dropdown">x</button>
-          <button class="button__dropdown dropdown-option y-dropdown" href="#">y</a></button>
-          <button class="button__dropdown dropdown-option y-dropdown" href="#">&plusmn; x</button>
-          <button class="button__dropdown dropdown-option y-dropdown" href="#">&plusmn; y</button>
+          <button class="button__dropdown dropdown-option y-dropdown">y</a></button>
+          <button class="button__dropdown dropdown-option y-dropdown">&plusmn; x</button>
+          <button class="button__dropdown dropdown-option y-dropdown">&plusmn; y</button>
         </div>
       </div>
       <div class="selectors__option">
         <div class="selectors__option-name">y-axis error</div>
-        <div class="dropdown-content" id="y-err-dropdown">
+        <div class="dropdown-content" id="y-axis-err">
           <button class="button__dropdown dropdown-option y-err-dropdown">x</button>
-          <button class="button__dropdown dropdown-option y-err-dropdown" href="#">y</a></button>
-          <button class="button__dropdown dropdown-option y-err-dropdown" href="#">&plusmn; x</button>
-          <button class="button__dropdown dropdown-option y-err-dropdown" href="#">&plusmn; y</button>
+          <button class="button__dropdown dropdown-option y-err-dropdown">y</a></button>
+          <button class="button__dropdown dropdown-option y-err-dropdown">&plusmn; x</button>
+          <button class="button__dropdown dropdown-option y-err-dropdown">&plusmn; y</button>
         </div>
       </div>
       <div class="selectors__option">
         <div class="selectors__option-name">fit selection</div>
-        <div class="dropdown-content" id="fit-dropdown">
+        <div class="dropdown-content" id="fit-selection">
           <button class="button__dropdown dropdown-option">Linear</button>
 					<button class="button__dropdown dropdown-option">Proportional</button>
 					<button class="button__dropdown dropdown-option">Exactly Proportional</button>
@@ -148,11 +149,11 @@
       </div>
     </div>
     <div class="selection__choices"> <!-- testing UI -->
-      <div>x-axis: x</div>
-      <div>x-axis error: &plusmn; x</div>
-      <div>x-axis: y</div>
-      <div>y-axis error: &plusmn; y</div>
-      <div>fit selection: inverse square</div>
+      <div class="x-axis">x-axis: x</div>
+      <div class="x-axis-err">x-axis error: &plusmn; x</div>
+      <div class="y-axis">y-axis: y</div>
+      <div class="y-axis-err">y-axis error: &plusmn; y</div>
+      <div class="fit-selection">fit selection: inverse square</div>
     </div>
     <div class="graph-wrapper__outer">
       <div class="graph-wrapper">
