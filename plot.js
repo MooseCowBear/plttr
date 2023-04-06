@@ -17,7 +17,7 @@ function fitGraphReport(fitSelection, independent, dependent, independentErr, de
     return;
   }
 
-  const graphDiv = document.querySelector(".graph-wrapper");
+  const graphDiv = document.querySelector("..graph-wrapper__outer");
   
   const dataObject = getData(independent, dependent, independentErr, dependentErr);
   const points = getPointPlotObjects(dataObject);
@@ -529,4 +529,9 @@ function reportFit(fit, coefs, covar) {
     default: //both none and exactly proportional
       coefParagraph.innerText = "";
   }
+}
+
+function hideGraph() {
+  const graphDiv = document.querySelector(".graph-wrapper__outer");
+  graphDiv.style.display = "none";
 }
