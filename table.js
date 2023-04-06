@@ -229,24 +229,3 @@ function checkInput(input) {
 	}
 	return false;
 }
-
-function extendVariableDropdowns(colName) {
-	/*
-    when we add a new column, we also need to add it 
-    to each of the relevant dropdown options
-  */
-
-	const x = document.getElementById("x-dropdown");
-	const y = document.getElementById("y-dropdown");
-	const x_error = document.getElementById("x-err-dropdown");
-	const y_error = document.getElementById("y-err-dropdown");
-
-  const dropdowns = [x, y, x_error, y_error];
-
-  dropdowns.forEach(elem => {
-    const newButton = document.createElement("button");
-    newButton.classList.add("button__dropdown", "dropdown-option", elem.id);
-    newButton.innerText = colName;
-    elem.appendChild(newButton);
-  });
-}
