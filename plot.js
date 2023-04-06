@@ -8,41 +8,41 @@ const INACTIVE_PTS = '#949494'; //'#A9A9A9' a bit lighter if the first is too da
 const FONT_COLOR = '#026670';
 const FONT_FAMILY = 'Inter, monospace';
 
-function fitGraphReport(fitSelection, independent, dependent, independentErr, dependentErr) {
+function fitGraphReport(graphState) {
   /* 
     the main function to do the fit, make the graph, report the fit. called when 
     all 5 selectors have been chosen. 
   */
-	if (!validColumnSelection(independent, dependent, independentErr, dependentErr)) {
+	if (!validColumnSelection(graphState.xAxis, graphState.yAxis, graphState.xAxisError, graphState.yAxisError)) {
     return;
   }
 
   const graphDiv = document.querySelector("..graph-wrapper__outer");
   
-  const dataObject = getData(independent, dependent, independentErr, dependentErr);
+  const dataObject = getData(graphState.xAxis, graphState.yAxis, graphState.xAxisError, graphState.yAxisError);
   const points = getPointPlotObjects(dataObject);
   let data = [points.active, points.inactive];
 
   if (fitSelection === "none") {
-    graph(data, fitSelection);
-    reportRMSE(dataObject, fitSelection, [], false);
-    reportFit(fitSelection, [], []);
+    graph(data, graphState.fitSelection);
+    reportRMSE(dataObject, graphState.fitSelection, [], false);
+    reportFit(graphState.fitSelection, [], []);
     graphDiv.style.display = "flex";
     return; 
   }
 
-  const [fitToReport, coefs, covar, line] = fitPoints(dataObject, fitSelection);
+  const [fitToReport, coefs, covar, line] = fitPoints(dataObject, graphState.fitSelection);
 
   if (line !== null) data.push(line); 
-  graph(data, fitSelection);
-  reportRMSE(dataObject, fitSelection, coefs, fitToReport);
+  graph(data, graphState.fitSelection);
+  reportRMSE(dataObject, graphState.fitSelection, coefs, fitToReport);
   graphDiv.style.display = "flex";
 
   if (fitToReport) { 
-		reportFit(fitSelection, coefs, covar);
+		reportFit(graphState.fitSelection, coefs, covar);
 	}
 	else {
-		addNotEnoughDataWarning(fitSelection);
+		addNotEnoughDataWarning(graphState.fitSelection);
 	}
 }
 
