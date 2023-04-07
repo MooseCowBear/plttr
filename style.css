@@ -4,6 +4,7 @@
   --table-100: #fef9c7;
   --table-200: #fce181;
   --background: #edeae5;
+  --accent-100-transparent: hsla(163, 68%, 78%, 0.5);
   --accent-200-transparent: hsla(185, 96%, 22%, 0.5);
 }
 
@@ -69,11 +70,16 @@ body {
   font-size: 16px;
   color: var(--accent-200);
   background-color: var(--background);
-  margin: 5vh 8vw;
+  margin: 5vh 5vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-200);
 }
 
 header {
@@ -116,9 +122,12 @@ main {
   gap: 2rem;
 }
 
+button:hover, button:focus {
+  cursor: pointer;
+}
+
 button.active:hover, button.active:focus {
   border: 2px solid var(--accent-200);
-  cursor: pointer;
 }
 
 table {
@@ -190,37 +199,18 @@ input[type="checkbox"]:checked {
   border-right: 2px solid var(--background);
 }
 
-.selectors  .selectors__option-name:hover, .selectors .selectors__option-name:focus {
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-thickness: 3px;
+.selectors__option__heading {
+  display: inline-block;
 }
 
-@media only screen and (max-width: 620px){
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding-left: 0.3rem;
-  }
-  .selectors {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--accent-100);
-    border-radius: 0.5rem;
-    padding: 1rem;
-  }
-  .selectors > div {
-    width: 90%;
-    padding: 0.8rem;
-  }
-  .selectors > .selectors__option:not(:last-child) {
-    border-right: none;
-    border-bottom: 2px solid var(--background);
-  }
+.selectors__option__heading > i {
+  vertical-align: middle;
 }
+
+.selectors__option__heading > i.show {
+  transform: rotate(180deg);
+}
+
 /* dropdowns */
 .selectors__option{
   position: relative;
@@ -237,11 +227,12 @@ input[type="checkbox"]:checked {
   box-shadow: 0 0 4px 5px rgb(0, 0, 0, 0.05);
 }
 
-.dropdown-content.show { /*check that this is the right class name to add */
+
+.dropdown-content.show { /* keep this, and rotate arrow icon */
   display: flex;
 }
 
-.button__dropdown{
+.button__dropdown {
   background-color: whitesmoke;
   font-family: "Inter", sans-serif;
   font-size: 0.9em;
@@ -255,7 +246,11 @@ input[type="checkbox"]:checked {
 }
 
 .button__dropdown:hover, .button__dropdown:focus {
-  background-color: var(--accent-100);
+  background-color: var(--background);
+}
+
+.button__dropdown.current {
+  background-color: var(--background);
 }
 
 .selection__choices {
@@ -275,7 +270,7 @@ input[type="checkbox"]:checked {
 
 .graph-wrapper__outer {
   width: 100%;
-  display: flex;
+  display: flex; /* default is none */
   flex-direction: column;
   align-items: center;
   gap: 1rem;
@@ -293,7 +288,7 @@ input[type="checkbox"]:checked {
   height: 40rem;
   border: 2px solid var(--accent-200);
   border-radius: 0.5em;
-  display: flex; /* default will be none */
+  display: flex; 
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
@@ -327,7 +322,7 @@ input[type="checkbox"]:checked {
   padding: 3vw;
   width: 80%; 
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: 3fr 1fr;
   border-radius: 0.5em;
   gap: 0.8em;
 }
@@ -429,6 +424,50 @@ label.warning-on, #name.warning-on {
   border: 2px solid salmon;
 }
 
+@media only screen and (max-width: 620px){
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-left: 0.3rem;
+  }
+  .selectors {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--accent-100);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  .selectors > div {
+    width: 90%;
+    padding: 0.8rem;
+  }
+  .selectors > .selectors__option:not(:last-child) {
+    border-right: none;
+    border-bottom: 2px solid var(--background);
+  }
+  .dropdown-content {
+    position: static;
+    background-color: var(--accent-100);
+    min-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .button__dropdown {
+    background-color: inherit;
+  }
+
+  .button__dropdown:hover, .button__dropdown:focus { /* will add circle icon to indicate */
+    background-color: inherit; 
+  }
+  
+  .button__dropdown.current {
+    background-color: inherit;
+  }
+}
+
 @media only screen and (max-width: 580px) {
   .calculator {
     width: 100%;
@@ -440,7 +479,6 @@ label.warning-on, #name.warning-on {
   .calculator__keys {
     grid-row: auto;
   }
-
   .graph-wrapper {
     padding: 0;
   }
