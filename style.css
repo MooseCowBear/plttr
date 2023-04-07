@@ -263,6 +263,7 @@ input[type="checkbox"]:checked {
 }
 
 .selection__choices > div {
+  display: none; /* default */
   border: 2px solid var(--accent-200);
   padding: 0.5em 1em;
   border-radius: 0.5em;
@@ -270,7 +271,7 @@ input[type="checkbox"]:checked {
 
 .graph-wrapper__outer {
   width: 100%;
-  display: flex; /* default is none */
+  display: none; /* default is none -> becomes flex */
   flex-direction: column;
   align-items: center;
   gap: 1rem;
@@ -352,6 +353,9 @@ input[type="checkbox"]:checked {
   height: 3em;
   border: 2px solid var(--accent-200);
   border-radius: 0.5em;
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
 }
 
 .close {
@@ -482,4 +486,24 @@ label.warning-on, #name.warning-on {
   .graph-wrapper {
     padding: 0;
   }
+}
+
+.button__dropdown > i {
+  display: none;
+  font-size: 0.5rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+.button__dropdown > span,
+.button__dropdown > i {
+  pointer-events: none;
+}
+
+.button__dropdown.current > i {
+  display: inline;
+}
+
+.button__dropdown:hover > i, .button__dropdown:focus > i {
+  display: inline;
 }
