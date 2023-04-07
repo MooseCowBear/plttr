@@ -171,7 +171,7 @@ function SVD(m, n, eps, tol, inputMatrix) {
 			}
 		}
 	}
-	return [q, u, v]; //arr that can be unpacked with {u, v, w} = SVD(m, n, eps, tol, inputMatrix);
+	return [q, u, v]; 
 }
 
 function testFsplitting(k, e, u, eps, q, m, n, v, its, z) {
@@ -838,6 +838,7 @@ function mrqcof(xs, ys, numPts, a, totalCoef, ia, numFitCoef, alpha, beta) {
     this function gives us the the values of the coefficients, the covariance matrix, 
     and the chisq of our "trial". We compare it to the prev trial to see if it's an 
     improvement (i.e. better chisq means improvement), 
+		from Numerical Recipes
   */
 	for (let i = 0; i < numFitCoef; i ++) {
 		for (let j = 0; j < i + 1; j ++) {
