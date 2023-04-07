@@ -1,6 +1,7 @@
 function addSelection(event, graphState) {
   if (event.target.tagName === "BUTTON") {
-    const selectionFor = event.target.parentNode.id; 
+    const parent = event.target.parentNode;
+    const selectionFor = parent.id; 
     const selectionMap = getSelectionMap();
     graphState[selectionMap[selectionFor]] = event.target.innerText; 
 
@@ -10,6 +11,9 @@ function addSelection(event, graphState) {
     if (readyToGraph(graphState)) {
       fitGraphReport(graphState);
     }
+    parent.classList.remove("show"); //maybe a little delay here?
+    const icon = parent.parentNode.querySelector("I");
+    icon.classList.remove("show");
   }
 }
 
