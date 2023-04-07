@@ -245,14 +245,6 @@ input[type="checkbox"]:checked {
   margin-bottom: 2px;
 }
 
-.button__dropdown:hover, .button__dropdown:focus {
-  background-color: var(--background);
-}
-
-.button__dropdown.current {
-  background-color: var(--background);
-}
-
 .selection__choices {
   margin-top: -1em;
   display: flex;
@@ -460,14 +452,6 @@ label.warning-on, #name.warning-on {
     box-shadow: none;
   }
   .button__dropdown {
-    background-color: inherit;
-  }
-
-  .button__dropdown:hover, .button__dropdown:focus { /* will add circle icon to indicate */
-    background-color: inherit; 
-  }
-  
-  .button__dropdown.current {
     background-color: inherit;
   }
 }
