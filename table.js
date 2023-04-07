@@ -9,18 +9,18 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
 	let independentErrIndex = "none";
   let dependentErrIndex = "none";
   
-	for (let i = 0; i < theTable.rows[0].cells.length; i ++) {
+	for (let i = 0; i < theTable.rows[0].cells.length; i ++) { //NOT WORKING
 		const cellText = theTable.rows[0].cells[i].innerText; 
 		if (cellText === independentCol) {
 			independentColIndex = i;
 		}
-		else if (cellText === dependentCol) {
+		if (cellText === dependentCol) {
 			dependentColIndex = i;
 		}
-		else if (cellText === independentErr) {
+		if (cellText === independentErr) {
 			independentErrIndex = i;
 		}
-		else if (cellText === dependentErr) {
+		if (cellText === dependentErr) {
 			dependentErrIndex = i;
 		}
 	}
@@ -39,14 +39,14 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
 
 	for (let i = 1, row; row = theTable.rows[i]; i++) {
 		const firstCol = row.cells[0]; 
-		const child = firstCol.getElementsByTagName("input"); 
+		const child = firstCol.getElementsByTagName("input");
 		const chk = child[0]; //the "exclude" checkbox
 		
 		if (chk.checked) {
-      getPoint(independentColIndex, dependentColIndex, independentErrIndex, dependentErrIndex, inactiveXs, inactiveYs, inactiveXerrs, inactiveYerrs);
+      getPoint(row, independentColIndex, dependentColIndex, independentErrIndex, dependentErrIndex, inactiveXs, inactiveYs, inactiveXerrs, inactiveYerrs);
 		}
 		else { //active point
-      getPoint(independentColIndex, dependentColIndex, independentErrIndex, dependentErrIndex, activeXs, activeYs, activeXerrs, activeYerrs);
+      getPoint(row, independentColIndex, dependentColIndex, independentErrIndex, dependentErrIndex, activeXs, activeYs, activeXerrs, activeYerrs);
     }
 	}
 	return {
@@ -61,7 +61,9 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
   }; 
 }
 
-function getPoint(xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErrs) {		
+function getPoint(row, xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErrs) {
+	console.log(xIndex, yIndex, xErrIndex, yErrIndex);
+
   let x = row.cells[xIndex].innerText;
   let y = row.cells[yIndex].innerText;
 
