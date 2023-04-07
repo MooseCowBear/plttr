@@ -17,13 +17,13 @@ function fitGraphReport(graphState) {
     return;
   }
 
-  const graphDiv = document.querySelector("..graph-wrapper__outer");
+  const graphDiv = document.querySelector(".graph-wrapper__outer");
   
   const dataObject = getData(graphState.xAxis, graphState.yAxis, graphState.xAxisError, graphState.yAxisError);
   const points = getPointPlotObjects(dataObject);
   let data = [points.active, points.inactive];
 
-  if (fitSelection === "none") {
+  if (graphState.fitSelection === "none") {
     graph(data, graphState.fitSelection);
     reportRMSE(dataObject, graphState.fitSelection, [], false);
     reportFit(graphState.fitSelection, [], []);
@@ -166,8 +166,7 @@ function fitPoints(dataObject, fitSelection) {
 		if (cleanXs.length < 3) { //there's not enough data for a fit
 			return [false, [], [], null]; 
 		}
-		else
-		{
+		else {
 			if (fitSelection === "exponential" || fitSelection === "power law") {
 				//call nonlinear fitting routine
 				const [coefs, covar, graph] = nonlinearFit(cleanXs, cleanYs, fitSelection);
@@ -176,8 +175,7 @@ function fitPoints(dataObject, fitSelection) {
 					const line = solveForY(xsToGraph, fitSelection, coefs);
 					return [true, coefs, covar, line]; 
 				}
-				else //not enough data points for nonlinear fit
-				{
+				else { //not enough data points for nonlinear fit after removing singularities
 					return [false, [], [], null];
 				}
 			}
@@ -531,7 +529,8 @@ function reportFit(fit, coefs, covar) {
   }
 }
 
-function hideGraph() {
+function hideGraph(graphState) {
   const graphDiv = document.querySelector(".graph-wrapper__outer");
   graphDiv.style.display = "none";
+  clearSelections(graphState);
 }
