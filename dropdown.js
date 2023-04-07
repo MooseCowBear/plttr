@@ -3,8 +3,7 @@ function addSelection(event, graphState) {
     const parent = event.target.parentNode;
     const selectionFor = parent.id; 
     const selectionMap = getSelectionMap();
-    graphState[selectionMap[selectionFor]] = event.target.innerText; //IF ADD CIRCLE ICON. THIS WILL CHANGE. 
-    //will be: event.target.querySelector("SPAN").innerText
+    graphState[selectionMap[selectionFor]] = event.target.querySelector("SPAN").innerText; 
 
     addToSelectionsDisplay(event, selectionFor);
     updateDropdownHighlight(event);
@@ -97,7 +96,7 @@ function extendVariableDropdowns(colName) {
 
     const buttonText = document.createElement("span");
     buttonText.innerText = colName;
-    
+
     newButton.appendChild(icon);
     newButton.appendChild(buttonText);
     elem.appendChild(newButton);
