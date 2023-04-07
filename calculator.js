@@ -99,6 +99,7 @@ function cancelFormula(formulaState) {
 
 function addNonDigit(char, formulaState) {
 	/* this includes e and pi, "(", ")", but not functions */
+	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += char;
 	updateDisplay(formulaState);
@@ -108,6 +109,7 @@ function addNonDigit(char, formulaState) {
 
 function addDigit(digit, formulaState) { 
 	/* decimal counts as digit for our purposes */
+	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += digit;	
 	updateDisplay(formulaState);
@@ -117,6 +119,7 @@ function addDigit(digit, formulaState) {
 
 function addFunction(funcName, charRepresentation, formulaState, withParen = false) {
 	/* every function except for negation adds left parenthesis */
+	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += charRepresentation; 
 	updateDisplay(formulaState);
@@ -128,6 +131,7 @@ function addFunction(funcName, charRepresentation, formulaState, withParen = fal
 }
 	
 function addSlope(formulaState) {
+	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
 	formulaState.newFormula += "Rate of Change( , )";  
 	updateDisplay(formulaState);
@@ -355,7 +359,7 @@ function submitFormula(formulaState, formulaMap) {
 				formModal.style.display = "none"; 
 			}
 			else { 
-				const warning = document.getElementById("invalid-formula");
+				const warning = document.querySelector(".invalid-formula");
 				warning.style.visibility = "visible"; 
 				updateDisplay(formulaState);
 			}
