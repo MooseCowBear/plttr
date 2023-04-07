@@ -126,13 +126,13 @@ function addRow() {
 	}
 }
 
-function updateColumnName(x = true) {
+function updateColumnName(column, x = true) {
   /*
     when user updates x, y column names, need to populate throughout.
     if they attempt to change to a name that is already taken or to none, 
     refuse the change and revert to original name.
   */
-  let newColName = e.target.innerText;
+  let newColName = column.innerText; 
   const index = x ? 1: 2;
 	const validName = checkName(newColName, index);
 
@@ -145,19 +145,24 @@ function updateColumnName(x = true) {
   const formulaBtn = x ? document.getElementById("x-btn") : document.getElementById("y-btn");
   const errFormulaBtn = x ? document.getElementById("x-err-btn") : document.getElementById("y-err-btn");
 
-  err.innerText = "&plusmn; " + newColName;
+	const i = err.innerText.indexOf(" ");
+	const newErrorColumnName = err.innerText.slice(0, i + 1) + newColName;
+
+  err.innerText = newErrorColumnName; 
   formulaBtn.innerText = newColName;
-  errFormulaBtn.innerText = "&plusmn; " + newColName;
+  errFormulaBtn.innerText = newErrorColumnName; 
 
   const dropdowns = x ? document.querySelectorAll('.x-dropdown') : document.querySelectorAll('.y-dropdown');
   const errDropdowns = x ? document.querySelectorAll('.x-err-dropdown') : document.querySelectorAll('.y-err-dropdown');
 
   dropdowns.forEach(elem => {
-    elem.innerText = newColName;
+		const spanElem = elem.querySelector("SPAN");
+    spanElem.innerText = newColName;
   });
 
   errDropdowns.forEach(elem => {
-    elem.innerText = "&plusmn; " + newColName;
+		const spanElem = elem.querySelector("SPAN");
+    spanElem.innerText = newErrorColumnName; 
   });
 }
 
