@@ -80,7 +80,7 @@ function updateNumber(formulaState) {
 		infix array
 	*/
 	if (formulaState.prevNum) { 
-		formulaState.infix.push(number);
+		formulaState.infix.push(formulaState.number);
 		formulaState.prevNum = false;
 		formulaState.number = ""; 
 	}
@@ -262,7 +262,7 @@ function updateFormula(event, formulaState, formulaMap) {
 			cancelFormula(formulaState);
 			break;
 		case "clear":
-			resetModal();
+			resetModal(formulaState);
 			break;
 		case "slope":
 			addSlope(formulaState)
@@ -316,8 +316,11 @@ function submitFormula(formulaState, formulaMap) {
 		2. that user has entered a name for the column and it is unique.
 		we also need to update the dom to reflect the new column.
 	*/
+
 	const formModal = document.getElementById("formula-modal");
 	updateNumber(formulaState);
+
+	console.log(formulaState);
 
 	const nameForm = document.getElementById("name");
 	const nameLabel = document.getElementById("name-input__label");
@@ -328,6 +331,7 @@ function submitFormula(formulaState, formulaMap) {
 	}
 
 	else { 
+		const newColName = nameForm.value;
 		const validName = checkName(newColName, 0); 
 
 		if (validName) {
@@ -335,12 +339,12 @@ function submitFormula(formulaState, formulaMap) {
 			nameLabel.classList.remove("warning-on"); 
 			nameForm.classList.remove("warning-on");
 
-			const [valid, postfix] = makePostfix(); 
+			const [valid, postfix] = makePostfix(formulaState); 
 
 			if (valid) {
 				addToFormulaMap(postfix, formulaMap);
 
-				addFormulaColumn(newColName); 
+				addFormulaColumn(newColName, formulaMap); 
 
 				extendVariableDropdowns(newColName);
 
@@ -688,6 +692,7 @@ function makePostfix(formulaState){
 }
 
 function isColumn(elem) { 
+	const {operators, functions, precedence, association} = getEvaluationUtilities();
 	if(elem !== "(" && elem !== ")" && !operators.includes(elem) && !functions.includes(elem)) {
 		return true;
 	}
