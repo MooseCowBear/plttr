@@ -491,3 +491,8 @@ label.warning-on, #name.warning-on {
 .button__dropdown:hover > i, .button__dropdown:focus > i {
   display: inline;
 }
+
+footer a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
