@@ -124,6 +124,10 @@
           <i class="fa-solid fa-angle-down"></i>
         </div>
         <div class="dropdown-content" id="x-axis-err">
+          <button class="button__dropdown dropdown-option none-dropdown">
+            <i class="fa-solid fa-circle"></i>
+            <span>none</span>
+          </button>
           <button class="button__dropdown dropdown-option x-dropdown">
             <i class="fa-solid fa-circle"></i>
             <span>x</span>
@@ -172,6 +176,10 @@
           <i class="fa-solid fa-angle-down"></i>
         </div>
         <div class="dropdown-content" id="y-axis-err">
+          <button class="button__dropdown dropdown-option none-dropdown">
+            <i class="fa-solid fa-circle"></i>
+            <span>none</span>
+          </button>
           <button class="button__dropdown dropdown-option x-dropdown">
             <i class="fa-solid fa-circle"></i>
             <span>x</span>
@@ -271,30 +279,30 @@
     </div>
 
     <div id="formula-modal" class="modal"> 
-      <div class="calculator"> <!--grid, 2 cols-->
+      <div class="calculator"> 
       
         <div class="calculator__header">
           <h2 class="calculator__title">add a formula</h2>
           <div id="close" class="close">&times;</div>
         </div>
         
-        <div class="calculator__screen-wrapper"> <!--third elem in grid, position, 1, 0-->
+        <div class="calculator__screen-wrapper"> 
           <p class="invalid-formula">invalid formula</p>
           <div class="calculator__screen"></div>
           <div>
             <label id="name-input__label" for="name">add a name:</label>
             <input type ="text" id="name" value="">
           </div>
-        </div> <!--end formula-calc-header div-->
+        </div> 
     
-        <div id="columns" class="columns"> <!--fourth elem in grid, position 1, 1-2-->
+        <div id="columns" class="columns"> 
           <button id="x-btn" class="calculator__button-column active">x</button>
           <button id="y-btn" class="calculator__button-column active">y</button>
           <button id="x-err-btn" class="calculator__button-column active">&plusmn; x</button>
           <button id="y-err-btn" class="calculator__button-column active">&plusmn; y</button>
-        </div> <!--end col-names-->
+        </div> 
           
-        <div class="calculator__keys"> <!--fifth elem in grid, position 2, 0-->
+        <div class="calculator__keys"> 
     
           <button id="del" class="calculator__button active">del</button>
           <button id="left-paren" class="calculator__button active non-digit">(</button>
@@ -343,7 +351,7 @@
     </div> <!--end modal/formModal-->
   </main>
   <footer>
-    <p>Any issues? Don't hesitate to let Professor Evan know! Or contact...</p>
+    <p>Any issues? Don't hesitate to let Professor Evan know! Or report it <a href="https://github.com/MooseCowBear/plttr-2.0/issues">here</a>.</p>
   </footer>
 </body>
 </html>
