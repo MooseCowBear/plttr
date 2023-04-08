@@ -101,12 +101,6 @@ function checkInput(input) {
 	return false;
 }
 
-/*
-need to add addcolumn function 
-- add column will need access to all the formula calculator/enterer functions
-and for recalculating table when new data is entered
-*/
-
 function addRow() { 
   const theTable = document.getElementById("table"); 
   const row = theTable.insertRow(theTable.rows.length); 
