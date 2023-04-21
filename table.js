@@ -71,23 +71,28 @@ function getPoint(row, xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErr
 		xs.push(parseFloat(x));
 		ys.push(parseFloat(y));
 
-		let xErr = row.cells[xErrIndex].innerText;
+		if (xErrIndex != "none") { 
 
-		if (xErrIndex != "none" && checkInput(xErr) && xErr !== "") {
-			xErrs.push(parseFloat(xErr));
+			let xErr = row.cells[xErrIndex].innerText;
+
+			if (checkInput(xErr) && xErr !== "") {
+				xErrs.push(parseFloat(xErr));
+			}
 		}
 		else {
 			xErrs.push(0);
 		}
 
-    let yErr = row.cells[yErrIndex].innerText;
+		if (yErrIndex != "none") {
+    	let yErr = row.cells[yErrIndex].innerText;
 
-    if (yErrIndex != "none" && checkInput(yErr) && yErr !== "") {
-      yErrs.push(parseFloat(yErr)); 
-    }
-    else {
-      yErrs.push(0);
-    }
+    	if (checkInput(yErr) && yErr !== "") {
+      	yErrs.push(parseFloat(yErr)); 
+    	}
+		}
+		else {
+			yErrs.push(0);
+		}
 	}
 }
 
