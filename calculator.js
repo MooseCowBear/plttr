@@ -276,7 +276,7 @@ function addColumnToFormula(columnName, formulaState) {
 	const theTable = document.getElementById("table");
 	const row = theTable.rows[0]; 
 	
-	for (let i = 0, col; col = row.cells[i]; i++) {
+	for (let i = 1, col; col = row.cells[i]; i++) {
 		const header = col.innerText;
 		if (header === columnName) {
 			formulaState.infix.push("col" + i); //whoever's header matches the innertext of the button pushed

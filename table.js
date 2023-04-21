@@ -208,7 +208,7 @@ function updateTableValues(event, formulaMap) {
       event.target.border = "none"; //remove warning border if there was one
     }
     else { 
-      event.target.border = "1px solid salmon"; //CHECK COLOR - would a border or a change to the background color look better?
+      event.target.border = "1px solid salmon";
     }
     const theTable = document.getElementById("table");
     const numRows = theTable.rows.length; 

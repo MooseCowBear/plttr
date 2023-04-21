@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //event listener for data being added to the table
   const theTable = document.getElementById("table");
-  table.addEventListener("input", (event, formulas) => {
+  table.addEventListener("input", (event) => {
     updateTableValues(event, formulas);
   });
 
