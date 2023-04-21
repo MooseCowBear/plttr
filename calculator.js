@@ -290,8 +290,8 @@ function addColumnToFormula(columnName, formulaState) {
 			formulaState.infix.push("col" + i); //whoever's header matches the innertext of the button pushed
 			break;
 		}
-		else if (header.includes(columnName.slice(1, columnName.length - 1))) {
-			formulaState.infix.push("col" + i); //this is for x and y errors
+		else if (header.includes(columnName)) {
+			formulaState.infix.push("col" + i); //this is for error columns
 			break;
 		}
 	}
@@ -396,7 +396,7 @@ function compute(postfix, rowIndex, numRows){
 	*/
 	const stack = []; 
 	
-	for(let i = 0; i < postfix.length; i ++) {
+	for (let i = 0; i < postfix.length; i ++) {
 		if (!isNaN(postfix[i])) {
 			stack.push(postfix[i]); 
 		}
@@ -588,6 +588,9 @@ function compute(postfix, rowIndex, numRows){
 
 	if (isColumn(lastVal)) {
 		lastVal = convertColumn(lastVal, rowIndex);
+		if (lastVal === "" || "!") {
+			return lastVal;
+		}
 	}
 	return roundToSignificantDigits(lastVal, 5); 
 }
@@ -597,7 +600,6 @@ function convertColumn(poppedElem, rowIndex) {
 	if (typeof poppedElem === 'string') {
 		const colIndex = parseInt(poppedElem.slice(3, poppedElem.length)); 
 		const cell = theTable.rows[rowIndex].cells[colIndex];
-
 		const input = cell.innerText; 
 		
 		if (input === "") {
@@ -663,7 +665,7 @@ function makePostfix(formulaState){
 				functions.includes(operatorStack[operatorStack.length - 1]) || 
 				precedence[operatorStack[operatorStack.length - 1]] === precedence[formulaState.infix[i]] && 
 				association[formulaState.infix[i]] === "left") {
-					
+
 					const op = operatorStack.pop();
 					postfix.push(op);
 				}
