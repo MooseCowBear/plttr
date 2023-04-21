@@ -251,7 +251,7 @@ function updateFormula(event, formulaState, formulaMap) {
 	}
 	else if (event.target.classList.contains("calculator__button-column")) {
 		columnName = event.target.innerText; 
-		addColumnToFormula(columnName);
+		addColumnToFormula(columnName, formulaState);
 	}
 
 	switch(event.target.id) {
@@ -267,7 +267,7 @@ function updateFormula(event, formulaState, formulaMap) {
 		case "slope":
 			addSlope(formulaState)
 			break;
-		default: 
+		case "submit": 
 			submitFormula(formulaState, formulaMap); 
 	}
 }
@@ -319,8 +319,6 @@ function submitFormula(formulaState, formulaMap) {
 
 	const formModal = document.getElementById("formula-modal");
 	updateNumber(formulaState);
-
-	console.log(formulaState);
 
 	const nameForm = document.getElementById("name");
 	const nameLabel = document.getElementById("name-input__label");
