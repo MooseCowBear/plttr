@@ -205,13 +205,13 @@ function addFormulaColumn(newColName, formulaMap) {
 }
 
 function updateTableValues(event, formulaMap) {
-  if (event.target.classList.contains(".edit")) {
+  if (event.target.classList.contains("edit")) {
     const val = event.target.innerText; 
     if (checkInput(val)) { 
-      event.target.border = "none"; //remove warning border if there was one
+      event.target.style.border = "none"; 
     }
     else { 
-      event.target.border = "1px solid salmon";
+      event.target.style.border = "2px solid salmon"; 
     }
     const theTable = document.getElementById("table");
     const numRows = theTable.rows.length; 
@@ -220,6 +220,7 @@ function updateTableValues(event, formulaMap) {
       for (let row = 1; row < numRows; row ++) {
         const formula = formulaMap.get(i); 
         const computedValue = compute(formula, row, numRows);
+				console.log(computedValue, "computed val");
         theTable.rows[row].cells[i].innerText = computedValue;
       }
     }
