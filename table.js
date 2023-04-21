@@ -220,7 +220,6 @@ function updateTableValues(event, formulaMap) {
       for (let row = 1; row < numRows; row ++) {
         const formula = formulaMap.get(i); 
         const computedValue = compute(formula, row, numRows);
-				console.log(computedValue, "computed val");
         theTable.rows[row].cells[i].innerText = computedValue;
       }
     }
