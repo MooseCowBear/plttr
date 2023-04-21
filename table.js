@@ -62,8 +62,6 @@ function getData(independentCol, dependentCol, independentErr, dependentErr) {
 }
 
 function getPoint(row, xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErrs) {
-	console.log(xIndex, yIndex, xErrIndex, yErrIndex);
-
   let x = row.cells[xIndex].innerText;
   let y = row.cells[yIndex].innerText;
 
