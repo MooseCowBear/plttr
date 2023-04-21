@@ -8,7 +8,7 @@ function openCalculator() {
 function getEvaluationUtilities() {
 	return {
 		operators: ["+", "-", "/", "*", "^"], 
-		functions: ["log10", "ln", "negate", "sqRoot", "sin", "cos", "tan", "slope", "log2", "abs"],
+		functions: ["log10", "ln", "negate", "sq-root", "sin", "cos", "tan", "slope", "log2", "abs"],
 		precedence: {
 			"+": 1,
 			"-": 1,
@@ -104,7 +104,15 @@ function addNonDigit(char, formulaState) {
 	formulaState.newFormula += char;
 	updateDisplay(formulaState);
 	updateNumber(formulaState);
-	formulaState.infix.push(char);
+	if (char === "e") {
+		formulaState.infix.push(Math.E)
+	}
+	else if(char == "\u03C0") {
+		formulaState.infix.push(Math.PI);
+	}
+	else {
+		formulaState.infix.push(char); 
+	}
 }
 
 function addDigit(digit, formulaState) { 
@@ -121,7 +129,7 @@ function addFunction(funcName, charRepresentation, formulaState, withParen = fal
 	/* every function except for negation adds left parenthesis */
 	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
-	formulaState.newFormula += charRepresentation; 
+	formulaState.newFormula += charRepresentation + "("; 
 	updateDisplay(formulaState);
 	updateNumber(formulaState);
 	formulaState.infix.push(funcName);
@@ -153,8 +161,8 @@ function deleteFromFormula(formulaState) {
 		and the calculator display
 	*/
 	const util = getEvaluationUtilities();
-	if(number !== "") {
-		formulaState.number = number.slice(0, number.length - 1); 
+	if(formulaState.number !== "") {
+		formulaState.number = formulaState.number.slice(0, formulaState.number.length - 1); 
 		formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1);
 		updateDisplay(formulaState);
 	}
@@ -170,7 +178,7 @@ function deleteFromFormula(formulaState) {
 			const colName = getColNameFromIndex(index);
 
 			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - colName.length); //chop off column name from formula string
-			updateDisplay();
+			updateDisplay(formulaState);
 		}
 		else if (formulaState.infix[formulaState.infix.length - 1] === "(") {
 			if (util.functions.includes(formulaState.infix[formulaState.infix.length - 2])) {
@@ -187,7 +195,7 @@ function deleteFromFormula(formulaState) {
 			else { //here is just open "("
 				formulaState.infix.pop();
 				formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1); 
-				updateDisplay();
+				updateDisplay(formulaState);
 			}
 		}
 		else if (formulaState.infix[formulaState.infix.length - 1] === ")") {
@@ -512,7 +520,7 @@ function compute(postfix, rowIndex, numRows){
 			}
 			stack.push(Math.abs(one));
 		}
-		else if (postfix[i] === "sqRoot") {
+		else if (postfix[i] === "sq-root") {
 			let one = convertColumn(stack.pop(), rowIndex);
 			if (one === "" || one === "!") {
 				return one; 
@@ -650,7 +658,7 @@ function makePostfix(formulaState){
 				if (!expectingOperator) {
 					return [false, postfix];
 				}
-				while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(" && (precedence.get(operatorStack[operatorStack.length - 1]) > precedence.get(formulaState.infix[i]) || functions.includes(operatorStack[operatorStack.length - 1]) || (precedence.get(operatorStack[operatorStack.length - 1]) === precedence.get(formulaState.infix[i]) && association.get(formulaState.infix[i]) === "left"))) {
+				while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(" && precedence[operatorStack[operatorStack.length - 1]] > precedence[formulaState.infix[i]] || functions.includes(operatorStack[operatorStack.length - 1]) || precedence[operatorStack[operatorStack.length - 1]] === precedence[formulaState.infix[i]] && association[formulaState.infix[i]] === "left") {
 					const op = operatorStack.pop();
 					postfix.push(op);
 				}
