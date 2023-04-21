@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
       event.target.nextElementSibling.classList.toggle("show");
     }
     addSelection(event, graphState); //can move if button out here..
-
   });
 
   //clear graph event listener
