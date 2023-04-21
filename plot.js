@@ -469,58 +469,58 @@ function reportFit(fit, coefs, covar) {
 
   switch(fit) {
     case "quadratic":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
-		  b = `B = ${coefs[1]} &plusmn; ${Math.sqrt(covar[1][1])}`; 
-		  c = `C = ${coefs[2]} &plusmn; ${Math.sqrt(covar[2][2])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
+		  b = `B = ${coefs[1]} \u00b1 ${Math.sqrt(covar[1][1])}`; 
+		  c = `C = ${coefs[2]} \u00b1 ${Math.sqrt(covar[2][2])}`;
 
       coefParagraph.innerText = `${a}\n${b}\n${c}`;
       break;
     case "linear":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
-		  b = `B = ${coefs[1]} &plusmn; ${Math.sqrt(covar[1][1])}`; 
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
+		  b = `B = ${coefs[1]} \u00b1 ${Math.sqrt(covar[1][1])}`; 
 
 		  coefParagraph.innerText = `${a}\n${b}`;
       break;
     case "square law":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
 
 		  coefParagraph.innerText = a;
       break;
     case "inverse":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
 
 		  coefParagraph.innerText = a;
       break;
     case "inverse square":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
 
 		  coefParagraph.innerText = a;
       break;
     case "proportional":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
 
 		  coefParagraph.innerText = a;
       break;
     case "square root":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
 
 		  coefParagraph.innerText = a;
       break;
     case "exponential":
-      a = `A = ${coefs[2]} &plusmn; ${Math.sqrt(covar[2][2])}`;
-		  b = `B = ${coefs[3]} &plusmn; ${Math.sqrt(covar[3][3])}`; 
-		  c = `C = ${coefs[4]} &plusmn; ${Math.sqrt(covar[4][4])}`;
+      a = `A = ${coefs[2]} \u00b1 ${Math.sqrt(covar[2][2])}`;
+		  b = `B = ${coefs[3]} \u00b1 ${Math.sqrt(covar[3][3])}`; 
+		  c = `C = ${coefs[4]} \u00b1 ${Math.sqrt(covar[4][4])}`;
 		
 		  coefParagraph.innerText = `${a}\n${b}\n${c}`;
       break;
     case "power law":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
-		  b = `B = ${coefs[1]} &plusmn; ${Math.sqrt(covar[1][1])}`; 
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
+		  b = `B = ${coefs[1]} \u00b1 ${Math.sqrt(covar[1][1])}`; 
 		
 		  coefParagraph.innerText = `${a}\n${b}`;
       break;
     case "no relation":
-      a = `A = ${coefs[0]} &plusmn; ${Math.sqrt(covar[0][0])}`;
+      a = `A = ${coefs[0]} \u00b1 ${Math.sqrt(covar[0][0])}`;
 
 		  coefParagraph.innerText = a;
       break;
