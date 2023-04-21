@@ -658,7 +658,12 @@ function makePostfix(formulaState){
 				if (!expectingOperator) {
 					return [false, postfix];
 				}
-				while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(" && precedence[operatorStack[operatorStack.length - 1]] > precedence[formulaState.infix[i]] || functions.includes(operatorStack[operatorStack.length - 1]) || precedence[operatorStack[operatorStack.length - 1]] === precedence[formulaState.infix[i]] && association[formulaState.infix[i]] === "left") {
+				while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== "(" && 
+				precedence[operatorStack[operatorStack.length - 1]] > precedence[formulaState.infix[i]] || 
+				functions.includes(operatorStack[operatorStack.length - 1]) || 
+				precedence[operatorStack[operatorStack.length - 1]] === precedence[formulaState.infix[i]] && 
+				association[formulaState.infix[i]] === "left") {
+					
 					const op = operatorStack.pop();
 					postfix.push(op);
 				}
