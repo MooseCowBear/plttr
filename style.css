@@ -215,7 +215,7 @@ input[type="checkbox"]:checked {
 }
 
 /* dropdowns */
-.selectors__option{
+.selectors__option {
   position: relative;
 }
 
@@ -238,10 +238,15 @@ input[type="checkbox"]:checked {
 .button__dropdown {
   background-color: whitesmoke;
   font-family: "Inter", sans-serif;
-  font-size: 0.9em;
-  padding: 1em;
+  font-size: 0.8rem; 
+  padding: 0.8rem;
   border-radius: 0;
   z-index: 1;
+  white-space: nowrap;
+}
+
+.fa-solid.fa-circle{
+  margin-right: -0.05rem;
 }
 
 .button__dropdown:not(:last-child){
