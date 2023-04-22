@@ -36,19 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //event listener for data being added to the table
   const theTable = document.getElementById("table");
+
   table.addEventListener("input", (event) => {
     updateTableValues(event, formulas);
   });
 
   //event listeners for anything clicked in calculator
   const calculator = document.querySelector(".calculator");
+  const formulaModal = document.getElementById("formula-modal");
+
   calculator.addEventListener("click", (event) => {
     if (event.target.nodeName === "BUTTON") {
       updateFormula(event, formulaState, formulas);
     }
     //close  x was clicked
     else if (event.target.id === "close") {
-      const formulaModal = document.getElementById("formula-modal");
       resetModal(formulaState);
   	  formulaModal.style.display = "none";
     }
@@ -56,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //for closing the calculator by clicking outside it
   window.addEventListener('click', function(event) {
-    const formulaModal = document.getElementById("formula-modal");
     if (event.target === formulaModal) {
       resetModal(formulaState);
       formulaModal.style.display = "none";
@@ -65,22 +66,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //graphing event listener
   const graphSelectionDiv = document.querySelector(".selectors");
+  
   graphSelectionDiv.addEventListener("click", (event) => {
     if (event.target.tagName === "A") {
       event.target.parentNode.nextElementSibling.classList.toggle("show");  
       event.target.nextElementSibling.classList.toggle("show");
     }
-    addSelection(event, graphState); //can move if button out here..
+    addSelection(event, graphState); 
   });
 
   //clear graph event listener
   const clearGraph = document.getElementById("clear-graph");
+
   clearGraph.addEventListener("click", () => {
     hideGraph(graphState);
   });
 
   //clear everything event listener
   const clearEverything = document.getElementById("clear-everything");
+
   clearEverything.addEventListener("click", () => {
     window.location.reload();
   }); 
