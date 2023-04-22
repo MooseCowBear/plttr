@@ -139,8 +139,7 @@ table {
 
 td, th {
   height: 3rem;
-  min-width: 5rem;
-  overflow: scroll; /* check how table was fixed in plttr 1 */
+  overflow: scroll; 
   white-space: nowrap;
   outline: none;
   padding: 0 3vw;
@@ -209,6 +208,10 @@ input[type="checkbox"]:checked {
 
 .selectors__option__heading > i.show {
   transform: rotate(180deg);
+}
+
+.selectors__option-name {
+  font-size: clamp(0.6rem, 2vw, 1rem);
 }
 
 /* dropdowns */
@@ -443,6 +446,9 @@ label.warning-on, #name.warning-on {
   .selectors > .selectors__option:not(:last-child) {
     border-right: none;
     border-bottom: 2px solid var(--background);
+  }
+  .selectors__option-name {
+    font-size: 1rem;
   }
   .dropdown-content {
     position: static;
