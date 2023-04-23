@@ -161,23 +161,24 @@ function deleteFromFormula(formulaState) {
 		and the calculator display
 	*/
 	const util = getEvaluationUtilities();
-	if(formulaState.number !== "") {
+
+	if(formulaState.number !== "") { //removing a digit
 		formulaState.number = formulaState.number.slice(0, formulaState.number.length - 1); 
 		formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1);
 		updateDisplay(formulaState);
 	}
-	else {
+	else { 
 		if (formulaState.infix.length === 0) {
 			return;
 		}
 		else if (typeof formulaState.infix[formulaState.infix.length -1] === "string" && formulaState.infix[formulaState.infix.length - 1].startsWith("col")) {
-			const col = formulaState.infix.pop(); //remove the last elem of infix arr
-			let index = col.slice(3); //remove "col" from front
-			index = parseInt(index); //convert from string to int
+			const col = formulaState.infix.pop(); 
+			let index = col.slice(3); 
+			index = parseInt(index); 
 
 			const colName = getColNameFromIndex(index);
 
-			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - colName.length); //chop off column name from formula string
+			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - colName.length); 
 			updateDisplay(formulaState);
 		}
 		else if (formulaState.infix[formulaState.infix.length - 1] === "(") {
@@ -205,9 +206,9 @@ function deleteFromFormula(formulaState) {
 
 				while (curr !== "slope") {
 					curr = formulaState.infix.pop(); //as soon as we've pooped slope we're done
-					if (curr.startsWith("col")) { //curr is always a string
-						let index = col.slice(3); //remove "col" from front
-						index = parseInt(index); //convert from string to int
+					if (curr.startsWith("col")) { 
+						let index = col.slice(3); 
+						index = parseInt(index); 
 
 						const colName = getColNameFromIndex(index);
 						toSlice += colName.length;
@@ -217,7 +218,7 @@ function deleteFromFormula(formulaState) {
 					}
 				}
 				formulaState.newFormula = formulaState.newFormula.slice(0, toSlice); 
-				enableNonColButtons(); //in case they were deactivated
+				enableNonColButtons(); 
 				updateDisplay(formulaState);
 			}
 			else { //")" all by itself
@@ -230,12 +231,23 @@ function deleteFromFormula(formulaState) {
 			formulaState.infix.pop(); 
 			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 4); //"&pi;" has 4 chars
 			updateDisplay(formulaState);
+
+			revertNumberInput(formulaState);
 		}
 		else { //either negate or an operator or E is at the end
 			formulaState.infix.pop();
 			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1); 
 			updateDisplay(formulaState);
 		}
+		revertNumberInput(formulaState);
+	}
+}
+
+function revertNumberInput(formulaState) {
+	if (/\d/.test(formulaState.infix[formulaState.infix.length - 1]) && !formulaState.infix[formulaState.infix.length - 1].startsWith("col")) {
+		const num = formulaState.infix.pop();
+		formulaState.number = num;
+		formulaState.prevNum = true;
 	}
 }
 
@@ -258,6 +270,8 @@ function updateFormula(event, formulaState, formulaMap) {
 		return;
 	}
 	else if (event.target.classList.contains("calculator__button-column")) {
+		updateDisplay(formulaState); 
+		updateNumber(formulaState);
 		columnName = event.target.innerText; 
 		addColumnToFormula(columnName, formulaState);
 	}
