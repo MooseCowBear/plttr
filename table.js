@@ -76,6 +76,9 @@ function getPoint(row, xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErr
 			if (checkInput(xErr) && xErr !== "") {
 				xErrs.push(parseFloat(xErr));
 			}
+			else {
+				xErrs.push(0);
+			}
 		}
 		else {
 			xErrs.push(0);
@@ -87,6 +90,9 @@ function getPoint(row, xIndex, yIndex, xErrIndex, yErrIndex, xs, ys, xErrs, yErr
     	if (checkInput(yErr) && yErr !== "") {
       	yErrs.push(parseFloat(yErr)); 
     	}
+			else {
+				yErrs.push(0);
+			}
 		}
 		else {
 			yErrs.push(0);
