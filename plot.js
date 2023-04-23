@@ -150,7 +150,7 @@ function getGraphTitle(fit) {
     "proportional": "y = Ax",
     "exactly proportional": "y = x",
     "square root": "y = A\u221Ax",
-    "exponential": "y = Ae\u1D2D\u02E3 + C",
+    "exponential": "y = Aeᴮ\u02E3 + C",
     "power law": "y = Ax\u1D47",
     "no relation": "y = A",
     "none": ""
