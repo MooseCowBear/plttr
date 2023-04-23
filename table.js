@@ -213,7 +213,15 @@ function addFormulaColumn(newColName, formulaMap) {
 		}
     row.appendChild(cell); 
 	}
+	updateTableStyling(theTable, currNumCols + 1); 
 }
+
+function updateTableStyling(table, numCols) { 
+	if (numCols > 9) {
+		table.classList.add("many-columns");
+	}
+}
+
 
 function updateTableValues(event, formulaMap) {
   if (event.target.classList.contains("edit")) {
