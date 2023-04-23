@@ -12,6 +12,7 @@ function fitGraphReport(graphState) {
   }
 
   const graphDiv = document.querySelector(".graph-wrapper__outer");
+  graphDiv.style.display = "flex";
   
   const dataObject = getData(graphState.xAxis, graphState.yAxis, graphState.xAxisError, graphState.yAxisError);
   const points = getPointPlotObjects(dataObject);
@@ -21,7 +22,6 @@ function fitGraphReport(graphState) {
     graph(data, graphState.fitSelection);
     reportRMSE(dataObject, graphState.fitSelection, [], false);
     reportFit(graphState.fitSelection, [], []);
-    graphDiv.style.display = "flex";
     return; 
   }
 
@@ -30,7 +30,6 @@ function fitGraphReport(graphState) {
   if (line !== null) data.push(line); 
   graph(data, graphState.fitSelection);
   reportRMSE(dataObject, graphState.fitSelection, coefs, fitToReport);
-  graphDiv.style.display = "flex";
 
   if (fitToReport) { 
 		reportFit(graphState.fitSelection, coefs, covar);
