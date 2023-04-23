@@ -36,7 +36,7 @@ button {
 }
 
 body {
-  min-height: 100vh;
+  min-height: 95vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
 }
@@ -70,10 +70,11 @@ body {
   font-size: 1rem;
   color: var(--accent-200);
   background-color: var(--background);
-  margin: 5vh 5vw;
+  margin: 1vh 5vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
 
@@ -496,6 +497,9 @@ label.warning-on, #name.warning-on {
 }
 
 @media only screen and (max-width: 580px) {
+  body {
+    margin: 1vh 2vw;
+  }
   .calculator {
     width: 85%;
     grid-template-columns: 1fr;
@@ -509,7 +513,6 @@ label.warning-on, #name.warning-on {
   .graph-wrapper {
     padding: 0;
   }
-
   td:not(.exclude), th:not(.exclude) {
     min-width: 7rem;
   }
