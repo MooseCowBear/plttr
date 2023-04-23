@@ -1,9 +1,9 @@
 :root {
-  --accent-100: #9fedd7;
-  --accent-200: #026670;
-  --table-100: #fef9c7;
-  --table-200: #fce181;
-  --background: #edeae5;
+  --accent-100: hsl(163, 68%, 78%);
+  --accent-200: hsl(185, 96%, 22%);
+  --table-100: hsl(55, 96%, 89%);
+  --table-200: hsl(47, 95%, 75%);
+  --background: hsl(37, 18%, 91%);
   --accent-100-transparent: hsla(163, 68%, 78%, 0.5);
   --accent-200-transparent: hsla(185, 96%, 22%, 0.5);
 }
