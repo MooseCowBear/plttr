@@ -67,7 +67,7 @@ a:not([class]) {
 
 body {
   font-family: "Roboto Mono", sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--accent-200);
   background-color: var(--background);
   margin: 5vh 5vw;
@@ -133,16 +133,24 @@ button.active:hover, button.active:focus {
 table {
   table-layout: fixed;
   width: 100%;
-  max-height: 90vh; /* adjust */
+  max-height: 90vh; /* doesn't do anything... */
   overflow: scroll;
 }
 
 td, th {
   height: 3rem;
-  overflow: scroll; 
+  overflow: auto; 
   white-space: nowrap;
   outline: none;
-  padding: 0 3vw;
+}
+
+td {
+  padding: 0 2vw;
+}
+
+th {
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  font-weight: normal;
 }
 
 th.exclude, td.exclude {
@@ -481,6 +489,9 @@ label.warning-on, #name.warning-on {
   .graph-wrapper {
     padding: 0;
   }
+  th.exclude, td.exclude {
+    width: 3rem;
+  }  
 }
 
 .button__dropdown > i {
