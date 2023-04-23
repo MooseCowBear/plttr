@@ -2,12 +2,6 @@
 AND whatever file ends up reading from the table
 */
 
-const BACKGROUND_COLOR = '#edeae5';
-const ACTIVE_PTS = 'hsla(185, 96%, 22%, 0.7)';
-const INACTIVE_PTS = '#949494'; //'#A9A9A9' a bit lighter if the first is too dark
-const FONT_COLOR = '#026670';
-const FONT_FAMILY = 'Inter, monospace';
-
 function fitGraphReport(graphState) {
   /* 
     the main function to do the fit, make the graph, report the fit. called when 
@@ -67,24 +61,36 @@ function validColumnSelection(independent, dependent, independentErr, dependentE
 }
 
 function graph(data, fit) { 
+  const { background_color, font_color, font_family } = getGraphAttributes();
+
   const config = {responsive: true}
 
   const layout = {
     title: getGraphTitle(fit),
     showlegend: false, 
-    paper_bgcolor: BACKGROUND_COLOR,
-    plot_bgcolor: BACKGROUND_COLOR, 
+    paper_bgcolor: background_color,
+    plot_bgcolor: background_color, 
     font: {
-      family: FONT_FAMILY,
+      family: font_family,
       size: 14,
-      color: FONT_COLOR 
+      color: font_color 
     } 
   };
 
   Plotly.newPlot("graph", data, layout, config); //takes id as first parameter 
 }
 
+function getGraphAttributes() {
+  return {
+    background_color: 'hsl(37, 18%, 91%)',
+    font_color: 'hsl(185, 96%, 22%)',
+    font_family: 'Inter, monospace'
+  };
+}
+
 function getPointPlotObjects(dataObject) {
+  const { active_color, inactive_color } = getColors();
+
   let active = {
     x: dataObject.activeX, 
     y: dataObject.activeY,
@@ -99,7 +105,7 @@ function getPointPlotObjects(dataObject) {
       visible: dataObject.activeYerr.every(elem => elem === 0) ? false : true
     },
     marker: {
-      color: ACTIVE_PTS
+      color: active_color
     },
     mode: 'markers', 
     type: 'scatter'
@@ -119,13 +125,20 @@ function getPointPlotObjects(dataObject) {
       visible: dataObject.inactiveYerr.every(elem => elem === 0) ? false : true
     },
     marker: {
-      color: INACTIVE_PTS
+      color: inactive_color
     },
     mode: 'markers', 
     type: 'scatter'
   };
 
   return {active: active, inactive: inactive};
+}
+
+function getColors() {
+  return { 
+    active_color: 'hsla(185, 96%, 22%, 0.7)', 
+    inactive_color: 'hsl(0, 0%, 60%)' 
+  };
 }
 
 function getGraphTitle(fit) {
