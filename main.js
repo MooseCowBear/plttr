@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const addRowButton = document.getElementById("add-row");
   const addColumnButton = document.getElementById("add-column");
 
-  addRowButton.addEventListener("click", addRow);
+  addRowButton.addEventListener("click", () => {
+    addRow(formulas);
+  });
+  
   addColumnButton.addEventListener("click", openCalculator); 
 
   //event listener for changes to x, y column names
@@ -66,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //graphing event listener
   const graphSelectionDiv = document.querySelector(".selectors");
-  
+
   graphSelectionDiv.addEventListener("click", (event) => {
     if (event.target.tagName === "A") {
       event.target.parentNode.nextElementSibling.classList.toggle("show");  
