@@ -110,7 +110,7 @@ function checkInput(input) {
 	return false;
 }
 
-function addRow() { 
+function addRow(formulaMap) { 
   const theTable = document.getElementById("table"); 
   const row = theTable.insertRow(theTable.rows.length); 
 
@@ -128,6 +128,11 @@ function addRow() {
 			cell.setAttribute("contenteditable", "true");
       cell.classList.add(".edit");
    	}
+		else { 
+			const formula = formulaMap.get(i); 
+			const cellValue = compute(formula, i, theTable.rows.length); 
+			cell.innerText = cellValue;
+		}
 	}
 }
 
