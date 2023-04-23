@@ -130,11 +130,26 @@ button.active:hover, button.active:focus {
   border: 2px solid var(--accent-200);
 }
 
+.table__wrapper {
+  max-width: 100%;;
+  max-height: 70vh;
+  overflow: auto;
+}
+
 table {
   table-layout: fixed;
   width: 100%;
-  max-height: 90vh; /* doesn't do anything... */
-  overflow: scroll;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+table.many-columns {
+  table-layout: auto;
+}
+
+table.many-columns th.exclude, table.many-columns td.exclude{
+  width: auto;
+  min-width: 4rem;
 }
 
 td, th {
@@ -144,6 +159,10 @@ td, th {
   outline: none;
 }
 
+td:not(.exclude), th:not(.exclude) {
+  min-width: 8rem;
+}
+
 td {
   padding: 0 2vw;
 }
@@ -151,10 +170,11 @@ td {
 th {
   font-size: clamp(0.7rem, 2vw, 1rem);
   font-weight: normal;
+  min-width: 5rem;
 }
 
 th.exclude, td.exclude {
-  width: 5rem;
+  width: 4rem;
   padding: 0;
 }
 
@@ -178,8 +198,8 @@ input[type="checkbox"] {
   appearance: none;
   width: 1rem;
   height: 1rem;
-  outline: 2px solid var(--accent-200);
-  border-radius: 1px;
+  outline: 1px solid var(--accent-200);
+  border-radius: 2px;
   background-color: transparent;
 }
 
@@ -477,7 +497,7 @@ label.warning-on, #name.warning-on {
 
 @media only screen and (max-width: 580px) {
   .calculator {
-    width: 100%;
+    width: 85%;
     grid-template-columns: 1fr;
   }
   .columns {
@@ -489,9 +509,10 @@ label.warning-on, #name.warning-on {
   .graph-wrapper {
     padding: 0;
   }
-  th.exclude, td.exclude {
-    width: 3rem;
-  }  
+
+  td:not(.exclude), th:not(.exclude) {
+    min-width: 7rem;
+  }
 }
 
 .button__dropdown > i {
