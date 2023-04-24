@@ -92,7 +92,7 @@ function getColNameFromIndex(index) {
 }
 	
 function cancelFormula(formulaState) {
-	const formulaModal = document.getElementById("formulaModal");
+	const formulaModal = document.getElementById("formula-modal");
 	resetModal(formulaState);
 	formulaModal.style.display = "none";
 }
@@ -207,23 +207,27 @@ function deleteFromFormula(formulaState) {
 				while (curr !== "slope") {
 					curr = formulaState.infix.pop(); //as soon as we've pooped slope we're done
 					if (curr.startsWith("col")) { 
-						let index = col.slice(3); 
+						let index = curr.slice(3); 
 						index = parseInt(index); 
 
 						const colName = getColNameFromIndex(index);
 						toSlice += colName.length;
 					}
+					else if (curr == "slope") {
+						toSlice += "rate of change".length + 1;
+					}
 					else {
 						toSlice += curr.length;
 					}
 				}
-				formulaState.newFormula = formulaState.newFormula.slice(0, toSlice); 
+			
+				formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - toSlice); 
 				enableNonColButtons(); 
 				updateDisplay(formulaState);
 			}
 			else { //")" all by itself
 				formulaState.infix.pop();
-				formulaState.newFormula = formulaState.newFormula.slice(0, newFormula.length - 1); 
+				formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1); 
 				updateDisplay(formulaState);
 			}
 		}
@@ -234,7 +238,12 @@ function deleteFromFormula(formulaState) {
 
 			revertNumberInput(formulaState);
 		}
-		else { //either negate or an operator or E is at the end
+		else if (formulaState.infix[formulaState.infix.length - 1] === "negate") {
+			formulaState.infix.pop();
+			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 2); 
+			updateDisplay(formulaState);
+		}
+		else { //either an operator or E 
 			formulaState.infix.pop();
 			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1); 
 			updateDisplay(formulaState);
@@ -317,7 +326,7 @@ function addColumnToFormula(columnName, formulaState) {
 		formulaState.ROC = 2;
 	}
 	else if (formulaState.ROC === 2) {
-		formulaState.newFormula = formulaState.newFormula.slice(0, newFormula.length - 2);
+		formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 2);
 		formulaState.newFormula += columnName;
 		formulaState.newFormula += ")";
 		formulaState.ROC = 0;
