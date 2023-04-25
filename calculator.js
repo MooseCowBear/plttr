@@ -125,15 +125,18 @@ function addDigit(digit, formulaState) {
 	formulaState.number += digit;
 }
 
-function addFunction(funcName, charRepresentation, formulaState) {
+function addFunction(funcName, charRepresentation, formulaState, withParen = true) {
 	/* every function except for negation adds left parenthesis */
 	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
-	formulaState.newFormula += charRepresentation + "("; 
+	formulaState.newFormula += charRepresentation; 
+	formulaState.infix.push(funcName);
+	if (withParen) {
+		formulaState.newFormula += "(";
+		formulaState.infix.push("(");
+	}
 	updateDisplay(formulaState);
 	updateNumber(formulaState);
-	formulaState.infix.push(funcName);
-	formulaState.infix.push("(");
 }
 	
 function addSlope(formulaState) {
@@ -236,11 +239,6 @@ function deleteFromFormula(formulaState) {
 
 			revertNumberInput(formulaState);
 		}
-		else if (formulaState.infix[formulaState.infix.length - 1] === "negate") {
-			formulaState.infix.pop();
-			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 2); 
-			updateDisplay(formulaState);
-		}
 		else { //either an operator or E 
 			formulaState.infix.pop();
 			formulaState.newFormula = formulaState.newFormula.slice(0, formulaState.newFormula.length - 1); 
@@ -269,7 +267,7 @@ function updateFormula(event, formulaState, formulaMap) {
 	}
 	else if (event.target.classList.contains("func")) {
 		if (event.target.id === "negate") {
-			addFunction("negate", " -", formulaState);
+			addFunction("negate", " -", formulaState, false);
 		}
 		else {
 			addFunction(event.target.id, event.target.innerText, formulaState);
