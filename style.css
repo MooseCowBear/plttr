@@ -161,7 +161,7 @@ td, th {
 }
 
 td:not(.exclude), th:not(.exclude) {
-  min-width: 8rem;
+  min-width: 8rem; /* for when we switch to table-layout: auto */
 }
 
 td {
@@ -171,7 +171,6 @@ td {
 th {
   font-size: clamp(0.7rem, 2vw, 1rem);
   font-weight: normal;
-  min-width: 5rem;
 }
 
 th.exclude, td.exclude {
@@ -188,7 +187,7 @@ td {
   font-family: "Inter", sans-serif;
 }
 
-.exclude.checkbox {
+.exclude.checkbox { /* td */
   padding: 0;
   display: flex;
   justify-content: center;
@@ -206,6 +205,10 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:checked {
   background-color: var(--accent-200);
+}
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
 }
 
 .selectors {
