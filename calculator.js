@@ -125,7 +125,7 @@ function addDigit(digit, formulaState) {
 	formulaState.number += digit;
 }
 
-function addFunction(funcName, charRepresentation, formulaState, withParen = false) {
+function addFunction(funcName, charRepresentation, formulaState) {
 	/* every function except for negation adds left parenthesis */
 	const warning = document.querySelector(".invalid-formula");
 	warning.style.visibility = "hidden"; 
@@ -133,9 +133,7 @@ function addFunction(funcName, charRepresentation, formulaState, withParen = fal
 	updateDisplay(formulaState);
 	updateNumber(formulaState);
 	formulaState.infix.push(funcName);
-	if (withParen) {
-		formulaState.infix.push("(");
-	}
+	formulaState.infix.push("(");
 }
 	
 function addSlope(formulaState) {
@@ -274,7 +272,7 @@ function updateFormula(event, formulaState, formulaMap) {
 			addFunction("negate", " -", formulaState);
 		}
 		else {
-			addFunction(event.target.id, event.target.innerText, formulaState, true);
+			addFunction(event.target.id, event.target.innerText, formulaState);
 		}
 		return;
 	}
@@ -708,7 +706,7 @@ function makePostfix(formulaState){
 				}
 				operatorStack.pop(); 
 			}
-			else {
+			else { //where we catch multiple decimal points
 				return [false, postfix];
 			}
 		}
