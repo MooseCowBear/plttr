@@ -13,7 +13,6 @@ function fitGraphReport(graphState) {
 
   const graphDiv = document.querySelector(".graph-wrapper__outer");
   graphDiv.style.display = "flex";
-  
   const dataObject = getData(graphState.xAxis, graphState.yAxis, graphState.xAxisError, graphState.yAxisError);
   const points = getPointPlotObjects(dataObject);
   let data = [points.active, points.inactive];
@@ -203,6 +202,9 @@ function fitPoints(dataObject, fitSelection) {
 
 function getXValuesForLine(dataObject) {
   [min, max] = getXMinAndMax(dataObject);
+  if (min === max) {
+    return []; 
+  }
   const xsToGraph = []; 
 	const incr = (max - min)/100; 
 
@@ -211,7 +213,7 @@ function getXValuesForLine(dataObject) {
 		xsToGraph.push(curr);
 		curr += incr; 
 	}
-  return xsToGraph
+  return xsToGraph;
 }
 
 function getXMinAndMax(dataObject) {
