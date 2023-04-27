@@ -74,6 +74,11 @@ RMSE is calculated using only x-values that are not singularities. Therefore a r
 
 Currently, errors are not incorporated into the fits. This is something I intend to remedy at some point. 
 
+### The graph
+
+
+Graphing is done with plotly.js
+
 
 ##### References
 
