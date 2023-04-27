@@ -8,6 +8,9 @@ Any two columns maybe selected for the x- and y-axes, and if desired, the studen
 
 Students have the option of excluding any point(s) they desire from the fit. These points will appear in the graph grayed out, so students can see where they fall in relation to the other points, but they are not factored into the calculations for the regression line. 
 
+## Live
+
+- [Live](https://moosecowbear.github.io/plttr-2.0/)
 
 ### The Table
 
