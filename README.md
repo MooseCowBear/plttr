@@ -1,6 +1,6 @@
 # plttr-2.0
 
-plttr was developed for use in an introductory physics course. It has the functionality of nPlot, plus calculated columns. 
+[plttr](https://moosecowbear.github.io/plttr-2.0/) was developed for use in an introductory physics course. It has the functionality of nPlot, plus calculated columns. 
 
 
 Any two columns maybe selected for the x- and y-axes, and if desired, the student may also chose columns for x-error and y-error. The application will calculate, graph, and report the coefficients of the selected fit, the standard errors of those coefficients, and the fit’s RMSE. 
@@ -8,9 +8,15 @@ Any two columns maybe selected for the x- and y-axes, and if desired, the studen
 
 Students have the option of excluding any point(s) they desire from the fit. These points will appear in the graph grayed out, so students can see where they fall in relation to the other points, but they are not factored into the calculations for the regression line. 
 
-## Live
+## Screenshots
 
-- [Live](https://moosecowbear.github.io/plttr-2.0/)
+On initial page load: 
+
+![alt text](screenshots/desktop_initial.png "plttr before user input")
+
+In action: 
+
+
 
 ### The Table
 
