@@ -656,7 +656,7 @@ function makePostfix(formulaState){
 				if (expectingOperator) {
 					return [false, postfix];
 				}
-				if ((operatorStack.length >= 2 && operatorStack[operatorStack.length - 2] !== "slope") || operatorStack.length < 2) {
+				if (!openSlope(i, formulaState.infix, operatorStack)) {
 					expectingOperator = true; 
 				}
 				postfix.push(formulaState.infix[i]);
@@ -721,6 +721,13 @@ function makePostfix(formulaState){
 		return [false, postfix]; 
 	}
 	return [true, postfix];
+}
+
+function openSlope(i, infix, opStack) {
+	/* slope is annoying in that it is the only function that expects two columns to follow.
+		helper function to check if the column we are seeing is the first of two slope 
+		columns */
+	return opStack.length >= 2 && opStack[opStack.length - 2] === "slope" && infix[i - 1] === "(";
 }
 
 function isColumn(elem) { 
