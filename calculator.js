@@ -406,8 +406,6 @@ function addToFormulaMap(postfix, formulaMap) {
 	formulaMap.set(currNumCols, postfix); 
 }
 
-//still need postfix, and compute
-
 function compute(postfix, rowIndex, numRows){ 
 	/*
 		function to compute the value of a table cell from the formula given as
@@ -425,12 +423,12 @@ function compute(postfix, rowIndex, numRows){
 
 		else if (postfix[i] === "+") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			} 
 
 			let two = convertColumn(stack.pop(), rowIndex);
-			if (two === "" || two === "!") {
+			if (stopCompute(two)) {
 				return two; 
 			}
 			
@@ -438,12 +436,12 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "-") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 
 			let two = convertColumn(stack.pop(), rowIndex);
-			if (two === "" || two === "!") {
+			if (stopCompute(two)) {
 				return two; 
 			}
 
@@ -451,12 +449,12 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "/") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 
 			let two = convertColumn(stack.pop(), rowIndex);
-			if (two === "" || two === "!") {
+			if (stopCompute(two)) {
 				return two; 
 			}
 
@@ -467,31 +465,31 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "*") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 		
 			let two = convertColumn(stack.pop(), rowIndex);
-			if (two === "" || two === "!") {
+			if (stopCompute(two)) {
 				return two; 
 			}
 			stack.push(two * one);
 		}
 		else if (postfix[i] === "^") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 		
 			let two = convertColumn(stack.pop(), rowIndex);
-			if (two === "" || two === "!") {
+			if (stopCompute(two)) {
 				return two; 
 			}
 			stack.push(two ** one);
 		}
 		else if (postfix[i] === "log10") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 
@@ -503,7 +501,7 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "ln") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 		
@@ -515,7 +513,7 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "log2") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 		
@@ -527,21 +525,21 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "negate") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 			stack.push(-one);
 		}
 		else if (postfix[i] === "abs") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 			stack.push(Math.abs(one));
 		}
 		else if (postfix[i] === "sq-root") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 			if (!isFinite(one**0.5)) {
@@ -551,21 +549,21 @@ function compute(postfix, rowIndex, numRows){
 		}
 		else if (postfix[i] === "sin") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 			stack.push(Math.sin(degreesToRadians(one)));
 		}
 		else if (postfix[i] === "cos") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 			stack.push(Math.cos(degreesToRadians(one)));
 		}
 		else if (postfix[i] === "tan") {
 			let one = convertColumn(stack.pop(), rowIndex);
-			if (one === "" || one === "!") {
+			if (stopCompute(one)) {
 				return one; 
 			}
 			stack.push(Math.tan(degreesToRadians(one)));
@@ -576,19 +574,19 @@ function compute(postfix, rowIndex, numRows){
 			
 			if (rowIndex > 1 && rowIndex < numRows - 1) {
 				const xPlusVal = convertColumn(X, rowIndex + 1);
-				if (xPlusVal === "" || xPlusVal === "!") {
+				if (stopCompute(xPlusVal)) {
 					return xPlusVal
 				}
 				const xMinusVal = convertColumn(X, rowIndex - 1);
-				if (xMinusVal === "" || xMinusVal === "!") {
+				if (stopCompute(xMinusVal)) {
 					return xMinusVal
 				}
 				const yPlusVal = convertColumn(Y, rowIndex + 1);
-				if (yPlusVal === "" || yPlusVal === "!") {
+				if (stopCompute(yPlusVal)) {
 					return yPlusVal
 				}
 				const yMinusVal = convertColumn(Y, rowIndex - 1);
-				if (yMinusVal === "" || yMinusVal === "!") {
+				if (stopCompute(yMinusVal)) {
 					return yMinusVal
 				}
 
@@ -607,11 +605,15 @@ function compute(postfix, rowIndex, numRows){
 
 	if (isColumn(lastVal)) {
 		lastVal = convertColumn(lastVal, rowIndex);
-		if (lastVal === "" || "!") {
+		if (stopCompute(lastVal)) {
 			return lastVal;
 		}
 	}
 	return roundToSignificantDigits(lastVal, 5); 
+}
+
+function stopCompute(val) {
+	return val === "" || val === "!";
 }
 
 function convertColumn(poppedElem, rowIndex) {
