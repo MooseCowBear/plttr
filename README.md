@@ -16,7 +16,7 @@ On initial page load:
 
 In action: 
 
-
+![alt text](screenshots/desktop_with_graph.png "plttr with graph generated from dummy data")
 
 ### The Table
 
@@ -54,7 +54,7 @@ If a row contains a non-number or a singularity, an “!” will be displayed fo
 Calculated values are rounded to five significant digits. 
 
 
-##### Two notes about slope…
+##### Three notes about slope…
 
 
 1. When the student includes Rate of Change in a formula, all non-column buttons on the calculator will be disabled until the two columns for the slope have been chosen. 
@@ -62,6 +62,7 @@ Calculated values are rounded to five significant digits.
 
 2. Without slope, (re)calculations could've been limited to the row in which a change is made. Slope interferes with the ability to do this. So instead of keeping detailed and convoluted track of which cells affect which others, the whole table recalculates whenever a change is made. It kills my soul slightly to do this, but so would the alternative and the table will be small. 
 
+3. Slope, or Rate of Change(x, y) is calculated as: delta x / delta y.
 
 ### The Fits
 
