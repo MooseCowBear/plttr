@@ -27,7 +27,7 @@ function fitGraphReport(graphState) {
   const [fitToReport, coefs, covar, line] = fitPoints(dataObject, graphState.fitSelection);
 
   if (line !== null) data.push(line); 
-  graph(data, graphState.fitSelection);
+  graph(data, graphState.fitSelection, graphState.xAxis, graphState.yAxis);
   reportRMSE(dataObject, graphState.fitSelection, coefs, fitToReport);
 
   if (fitToReport) { 
@@ -58,7 +58,7 @@ function validColumnSelection(independent, dependent, independentErr, dependentE
   return true;
 }
 
-function graph(data, fit) { 
+function graph(data, fit, xLabel, yLabel) { 
   const { background_color, font_color, font_family } = getGraphAttributes();
 
   const config = {responsive: true}
@@ -72,7 +72,19 @@ function graph(data, fit) {
       family: font_family,
       size: 14,
       color: font_color 
-    } 
+    },
+    xaxis: {
+      title: xLabel,
+      font: {
+        size: 12,
+      }
+    },
+    yaxis: {
+      title: yLabel,
+      font: {
+        size: 12,
+      }
+    }
   };
 
   Plotly.newPlot("graph", data, layout, config); //takes id as first parameter 
