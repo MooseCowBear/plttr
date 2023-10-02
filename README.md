@@ -10,7 +10,7 @@ Students have the option of excluding any point(s) they desire from the fit. The
 
 ## Live 
 
-[live](https://moosecowbear.github.io/plttr-2.0/)
+[live](https://moosecowbear.github.io/plttr/)
 
 ## Screenshots
 
